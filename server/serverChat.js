@@ -761,4 +761,4 @@ app.delete('/api/documents/:documentId', authenticate, async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => logger.info(`Servidor de chat rodando na porta ${PORT}`));
+app.listen(PORT, () => logger.info(`Servidor de chat rodando naa porta ${PORT}`));

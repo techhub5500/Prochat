@@ -10,6 +10,9 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const Mixpanel = require('mixpanel');
 
+const app = express();
+const server = http.createServer(app); 
+
 const mixpanel = Mixpanel.init(process.env.MIXPANEL_TOKEN);
 
 // Conectar ao MongoDB
@@ -111,7 +114,7 @@ app.use(cors({
     'http://127.0.0.1:3001',
     'http://localhost:5500',
     'http://127.0.0.1:5500',
-    // Adicionar URL do Render, ex: 'https://your-app.onrender.com'
+    // Adicionar URLs do Render, ex: 'https://prochat-login.onrender.com'
   ],
   credentials: true
 }));
@@ -127,7 +130,7 @@ const io = socketIo(server, {
       'http://127.0.0.1:3001',
       'http://localhost:5500',
       'http://127.0.0.1:5500',
-      // Adicionar URL do Render
+      // Adicionar URLs do Render
     ],
     methods: ['GET', 'POST'],
     credentials: true

@@ -691,7 +691,8 @@ function uploadFile(formData, file) {
     size: file.size
   }, 'sent', currentUser.username, new Date());
   
-  ffetch('https://prochat-sharing.onrender.com/upload', {  // Substituído: removido localhost
+  // ERRO AQUI: ffetch em vez de fetch
+  fetch('https://prochat-sharing.onrender.com/upload', {  // Corrigido: ffetch → fetch
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${token}`

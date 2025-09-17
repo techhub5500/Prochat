@@ -1,0 +1,2982 @@
+/* ========================================
+   RESET E GERAIS
+======================================== */
+
+/* Box-sizing global para consistência */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Variáveis CSS para otimização e manutenção */
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f9fafb;
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --primary-color: #3b82f6;
+  --accent-color: #2563eb;
+  --border-color: #e5e7eb;
+  --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-heavy: 0 20px 40px rgba(0, 0, 0, 0.15);
+  --transition-fast: 0.2s ease;
+  --transition-slow: 0.3s ease-out;
+  --border-radius: 12px;
+  --font-family: 'Inter', sans-serif;
+  --z-modal: 10000;
+}
+
+/* ========================================
+   SIDEBAR
+======================================== */
+.prochat-container {
+  display: flex;
+  height: 100%;
+}
+
+.prochat-sidebar {
+  width: 60px;
+  background-color: #F9F9F9;
+  border-right: 1px solid #E0E0E0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.prochat-btn {
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666666;
+  font-size: 18px;
+  transition: background-color var(--transition-fast);
+}
+
+.prochat-btn:hover {
+  background-color: #E0E0E0;
+}
+
+.prochat-toggle {
+  position: absolute;
+  top: 0px;
+  margin-bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #000f31;
+  font-size: 14px;
+}
+
+/* ========================================
+   MAIN PAGE
+======================================== */
+.page-title-main {
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--primary-color);
+  margin-bottom: 10px;
+  position: relative;
+  display: inline-block;
+}
+
+.page-title-main::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 8%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-color), #8B5CF6);
+  border-radius: 2px;
+}
+
+.page-main {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.prochat-main {
+  flex: 1;
+  height: 100%;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ========================================
+   CHAT AREA
+======================================== */
+.chat-area-main {
+  flex: 2.3;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+  background-color: var(--bg-primary);
+  overflow: hidden;
+}
+
+.chat-messages-main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ========================================
+   MESSAGES
+======================================== */
+.message-main {
+  max-width: 85%;
+  padding: 12px 18px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  word-wrap: break-word;
+  box-shadow: var(--shadow-light);
+  transition: transform var(--transition-fast);
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.message-main:hover {
+  transform: translateY(-1px);
+}
+
+.message-user-main {
+  align-self: flex-end;
+  background: linear-gradient(135deg, var(--primary-color), #1D4ED8);
+  color: var(--bg-primary);
+  border-bottom-right-radius: 4px;
+}
+
+.message-ai-main {
+  align-self: flex-start;
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-bottom-left-radius: 4px;
+}
+
+.message-buttons {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 5px;
+  display: flex;
+  gap: 5px;
+  opacity: 1;
+  transition: opacity var(--transition-fast);
+}
+
+.message-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  opacity: 0.7;
+  transition: opacity var(--transition-fast);
+}
+
+.message-btn:hover {
+  opacity: 1;
+}
+
+.message-main.selected {
+  background-color: rgba(59, 131, 246, 0);
+  border: 2px solid #1063e9;
+  position: relative;
+}
+
+.message-main.selected::after {
+  content: '●';
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  color: var(--primary-color);
+  font-size: 16px;
+  background: var(--bg-primary);
+  border-radius: 50%;
+  padding: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.share-mode-active .message-main {
+  cursor: pointer;
+}
+
+.copy-feedback {
+  font-size: 12px;
+  color: #666;
+  margin-left: 5px;
+  transition: opacity 0.3s ease;
+}
+
+/* ========================================
+   MARKDOWN STYLING (Minimalista e Elegante para IA)
+======================================== */
+.message-ai-main {
+  font-family: var(--font-family);
+  font-size: 16px;
+  line-height: 1.6;
+  color: #1e293b;
+  overflow-wrap: break-word;
+}
+
+/* ========= TÍTULOS ========= */
+.message-ai-main h1,
+.message-ai-main h2,
+.message-ai-main h3,
+.message-ai-main h4,
+.message-ai-main h5,
+.message-ai-main h6 {
+  font-weight: 600;
+  margin: 1em 0 0.5em 0;
+  line-height: 1.3;
+  color: #0f172a;
+}
+
+/* ========= PARÁGRAFOS ========= */
+.message-ai-main p {
+  margin: 0.75em 0;
+  color: #1e293b;
+}
+
+/* ========= LISTAS ========= */
+.message-ai-main ul,
+.message-ai-main ol {
+  margin: 0.75em 0 0.75em 1.5em;
+  padding: 0;
+}
+
+.message-ai-main li {
+  margin: 0.4em 0;
+}
+
+/* ========= TEXTO ========= */
+.message-ai-main strong {
+  font-weight: 600;
+}
+
+.message-ai-main em {
+  font-style: italic;
+}
+
+/* ========= CÓDIGO INLINE ========= */
+.message-ai-main code {
+  background-color: #f1f5f9;
+  color: #dc2626;
+  font-family: ui-monospace, monospace;
+  font-size: 0.95em;
+  padding: 0.15em 0.35em;
+  border-radius: 4px;
+}
+
+/* ========= BLOCO DE CÓDIGO ========= */
+.message-ai-main pre {
+  background-color: #0d1117;
+  color: #e6edf3;
+  font-family: ui-monospace, monospace;
+  font-size: 0.9em;
+  line-height: 1.5;
+  border-radius: 8px;
+  padding: 1em;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  overflow-x: auto;
+  margin: 1em 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.message-ai-main pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  font-size: inherit;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+/* ========= CITAÇÕES ========= */
+.message-ai-main blockquote {
+  border-left: 4px solid var(--border-color);
+  margin: 1em 0;
+  padding-left: 1em;
+  color: #475569;
+  font-style: italic;
+}
+
+/* ========= LINKS ========= */
+.message-ai-main a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.message-ai-main a:hover {
+  text-decoration: underline;
+}
+
+/* ========= TABELAS ========= */
+.message-ai-main table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+  font-size: 0.9em;
+}
+
+.message-ai-main th,
+.message-ai-main td {
+  border: 1px solid #e2e8f0;
+  padding: 0.6em 0.8em;
+  text-align: left;
+}
+
+.message-ai-main th {
+  background-color: var(--bg-secondary);
+  font-weight: 600;
+}
+
+/* ========= LINHA DIVISÓRIA ========= */
+.message-ai-main hr {
+  border: none;
+  border-top: 1px solid #e2e8f0;
+  margin: 1.5em 0;
+}
+
+/* ========================================
+   INPUT
+======================================== */
+.chat-input-container {
+  width: 70%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  padding: 10px 20px;
+}
+
+.enhance-btn {
+  position: absolute;
+  left: 30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666666;
+  font-size: 16px;
+  z-index: 1;
+}
+
+.chat-input-field-main {
+  width: 70%;
+  margin: 0 auto;
+  height: 110px;
+  margin-bottom: 10px;
+  padding: 30px 50px 30px 50px;
+  border: 1px solid #E0E0E0;
+  border-radius: 25px;
+  background-color: var(--bg-primary);
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 100;
+  color: rgb(19, 19, 19);
+  outline: none;
+  box-sizing: border-box;
+  resize: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.chat-input-field-main:not(:placeholder-shown) {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.chat-input-field-main::-webkit-scrollbar {
+  width: 4px;
+  border-radius: 25px;
+}
+
+.chat-input-field-main::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 25px;
+  margin-right: 10px;
+}
+
+.chat-input-field-main::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 25px;
+}
+
+.chat-input-field-main::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
+
+.send-embedded-btn {
+  position: absolute;
+  right: 30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #676767;
+  font-size: 25px;
+  z-index: 1;
+}
+
+/* ========================================
+   MODALS
+======================================== */
+.history-modal {
+  display: none;
+  position: fixed;
+  z-index: var(--z-modal);
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
+  animation: fadeIn var(--transition-slow);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.history-modal-content {
+  background-color: var(--bg-primary);
+  margin: 5% auto;
+  padding: 30px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 650px;
+  max-height: 85%;
+  overflow-y: auto;
+  box-shadow: var(--shadow-heavy);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: slideIn var(--transition-slow);
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.history-close {
+  color: #666;
+  float: right;
+  font-size: 24px;
+  font-weight: 300;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+  margin-bottom: 10px;
+}
+
+.history-close:hover {
+  color: #333;
+}
+
+.history-modal-content h2 {
+  font-size: 28px;
+  font-weight: 400;
+  color: #1A1A1A;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#search-history {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #E0E0E0;
+  border-radius: 12px;
+  background-color: #F9F9F9;
+  font-size: 16px;
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  box-sizing: border-box;
+}
+
+#search-history:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.history-list {
+  margin-top: 25px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.history-item {
+  padding: 15px 20px;
+  border-bottom: 1px solid #F0F0F0;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+  border-radius: 8px;
+  margin-bottom: 5px;
+  font-size: 16px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.history-item:hover {
+  background-color: #F5F7FA;
+  transform: translateY(-1px);
+}
+
+.history-item:last-child {
+  border-bottom: none;
+}
+
+.history-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.history-list::-webkit-scrollbar-track {
+  background: #F1F1F1;
+  border-radius: 3px;
+}
+
+.history-list::-webkit-scrollbar-thumb {
+  background: #C1C1C1;
+  border-radius: 3px;
+}
+
+.history-list::-webkit-scrollbar-thumb:hover {
+  background: #A1A1A1;
+}
+
+.delete-chat-btn {
+  background: none;
+  border: none;
+  color: #FF6B6B;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  transition: background-color var(--transition-fast);
+}
+
+.delete-chat-btn:hover {
+  background-color: #FFE6E6;
+}
+
+.delete-modal {
+  display: none;
+  position: fixed;
+  z-index: 15000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(2px);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.delete-modal-content {
+  background-color: var(--bg-primary);
+  margin: 20% auto;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.delete-modal-message {
+  font-size: 18px;
+  font-weight: 400;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.delete-modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.delete-modal-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.delete-modal-btn.cancel {
+  background-color: #F0F0F0;
+  color: #666;
+}
+
+.delete-modal-btn.cancel:hover {
+  background-color: #E0E0E0;
+  transform: translateY(-1px);
+}
+
+.delete-modal-btn.confirm {
+  background-color: #FF6B6B;
+  color: #FFFFFF;
+}
+
+.delete-modal-btn.confirm:hover {
+  background-color: #FF5252;
+  transform: translateY(-1px);
+}
+
+/* ========================================
+   MODAL DE SELEÇÃO DE MODELO (NOVO LAYOUT EM CARDS)
+======================================== */
+.model-modal {
+  display: none;
+  position: fixed;
+  z-index: var(--z-modal);
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
+  animation: fadeIn var(--transition-slow);
+}
+
+.model-modal-content {
+  background-color: var(--bg-primary);
+  margin: 5% auto;
+  padding: 30px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 900px;
+  max-height: 85%;
+  overflow-y: auto;
+  box-shadow: var(--shadow-heavy);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: slideIn var(--transition-slow);
+}
+
+.model-close {
+  color: #666;
+  float: right;
+  font-size: 24px;
+  font-weight: 300;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+  margin-bottom: 10px;
+}
+
+.model-close:hover {
+  color: #333;
+}
+
+.model-modal-content h2 {
+  font-size: 28px;
+  font-weight: 400;
+  color: #1A1A1A;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.model-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.model-card {
+  background-color: #F9F9F9;
+  border: 1px solid #E0E0E0;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 300px;
+}
+
+.model-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.model-icon {
+  font-size: 40px;
+  color: var(--primary-color);
+  margin-bottom: 15px;
+}
+
+.model-card h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.model-tasks {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+  text-align: left;
+  flex-grow: 1;
+}
+
+.model-tasks li {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+  padding-left: 15px;
+  position: relative;
+}
+
+.model-tasks li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #10B981;
+  font-weight: bold;
+}
+
+.model-select-btn {
+  background-color: var(--primary-color);
+  color: var(--bg-primary);
+  border: none;
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+  width: 100%;
+  margin-top: auto;
+}
+
+.model-select-btn:hover {
+  background-color: var(--accent-color);
+  transform: translateY(-1px);
+}
+
+/* ========================================
+   TOASTS
+======================================== */
+.new-chat-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #4CAF50;
+  color: var(--bg-primary);
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1001;
+}
+
+.new-chat-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 14px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1000;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ========================================
+   UTILITIES
+======================================== */
+.selection-mode-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+.selection-mode-btn:hover {
+  color: #000;
+}
+
+.cancel-selection-btn {
+  background: linear-gradient(135deg, #fee2e2, #fecaca);
+  border: 1px solid #fca5a5;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #dc2626;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.1);
+  position: relative;
+}
+
+.cancel-selection-btn:hover {
+  background: linear-gradient(135deg, #fecaca, #fca5a5);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+  transform: translateY(-2px);
+  color: #b91c1c;
+}
+
+.cancel-selection-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.1);
+}
+
+/* ========================================
+   WAITING MESSAGE
+======================================== */
+.waiting-message {
+  display: flex;
+  align-items: center;
+  font-style: italic;
+  color: var(--text-secondary);
+  opacity: 0.8;
+}
+
+.waiting-text {
+  margin-right: 4px;
+  font-size: 14px;
+}
+
+.waiting-dots {
+  display: flex;
+  align-items: center;
+}
+
+.dot {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--text-secondary);
+  animation: typingDot 1.4s infinite ease-in-out;
+  opacity: 0;
+}
+
+.dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+@keyframes typingDot {
+  0%, 60%, 100% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+.waiting-background {
+  background: linear-gradient(45deg, #f0f4f8, #e0e7ff, #f0f4f8);
+  background-size: 400% 400%;
+  animation: wave 5s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Popup Moderno e Minimalista */
+.modern-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: var(--z-modal);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.modern-popup-overlay.show {
+  opacity: 1;
+}
+
+.modern-popup {
+  background: var(--bg-primary);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 300px;
+  width: 90%;
+}
+
+.modern-popup p {
+  margin: 0 0 15px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.modern-popup-btn {
+  background: var(--primary-color);
+  color: var(--bg-primary);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background var(--transition-fast);
+}
+
+.modern-popup-btn:hover {
+  background: var(--accent-color);
+}
+
+/* Efeito para botão de aprimorar ativo */
+.enhance-active {
+  color: var(--primary-color) !important;
+  animation: pulse-blue 1.5s infinite;
+}
+
+@keyframes pulse-blue {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+/* ========================================
+   MODAL DE MELHORAR PROMPT (Minimalista e Moderno)
+======================================== */
+.enhance-modal {
+  display: none;
+  position: fixed;
+  z-index: var(--z-modal);
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
+  animation: fadeIn var(--transition-slow);
+}
+
+.enhance-modal-content {
+  background-color: var(--bg-primary);
+  margin: 10% auto;
+  padding: 30px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80%;
+  overflow-y: auto;
+  box-shadow: var(--shadow-heavy);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: slideIn var(--transition-slow);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.enhance-close {
+  align-self: flex-end;
+  color: #666;
+  font-size: 24px;
+  font-weight: 300;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+}
+
+.enhance-close:hover {
+  color: #333;
+}
+
+.enhance-modal-content h2 {
+  font-size: 24px;
+  font-weight: 500;
+  color: #1A1A1A;
+  margin: 0;
+  text-align: center;
+}
+
+.enhance-modal-content textarea {
+  width: 100%;
+  height: 200px;
+  padding: 15px;
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+  background-color: #F9F9F9;
+  font-size: 16px;
+  font-family: inherit;
+  outline: none;
+  resize: vertical;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  box-sizing: border-box;
+}
+
+.enhance-modal-content textarea:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.enhance-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.enhance-buttons button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+#enhance-cancel-btn {
+  background-color: #F0F0F0;
+  color: #666;
+}
+
+#enhance-cancel-btn:hover {
+  background-color: #E0E0E0;
+  transform: translateY(-1px);
+}
+
+#enhance-send-btn {
+  background-color: #1c50a4;
+  color: var(--bg-primary);
+}
+
+#enhance-send-btn:hover {
+  background-color: #072c7c;
+  transform: translateY(-1px);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .enhance-modal-content {
+    margin: 20% auto;
+    padding: 20px;
+    max-width: 90%;
+  }
+
+  .enhance-modal-content h2 {
+    font-size: 20px;
+  }
+
+  .enhance-modal-content textarea {
+    height: 150px;
+    font-size: 14px;
+  }
+
+  .enhance-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .enhance-buttons button {
+    width: 100%;
+  }
+}
+
+/* ...existing code... */
+
+/* Popup da IA Selecionada */
+.ai-popup {
+  display: none;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background-color: var(--bg-primary);
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+  padding: 15px 20px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+  max-width: 250px;
+  text-align: center;
+  animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.ai-popup-close {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  color: #666;
+  font-size: 20px;
+  font-weight: 300;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.ai-popup-close:hover {
+  color: #333;
+}
+
+#ai-popup-text {
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Destaque para o modelo em uso */
+.model-select-btn.in-use {
+  background-color: #f16e17;
+  color: var(--bg-primary);
+  border: 2px solid var(--accent-color);
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
+}
+
+.model-select-btn.in-use:hover {
+  background-color: var(--accent-color);
+}
+
+/* ========================================
+   MODAL DE CONFIRMAÇÃO DE DELETE
+   ======================================== */
+
+.prochat-docs-delete-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: var(--z-modal);
+  animation: fadeIn var(--transition-slow);
+}
+
+.prochat-docs-delete-content {
+  background: var(--bg-primary);
+  border-radius: 12px;
+  box-shadow: var(--shadow-heavy);
+  max-width: 400px;
+  width: 90%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.prochat-docs-delete-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.prochat-docs-delete-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.prochat-docs-delete-close {
+  font-size: 24px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.prochat-docs-delete-close:hover {
+  color: #374151;
+}
+
+.prochat-docs-delete-body {
+  padding: 24px;
+  text-align: center;
+}
+
+.prochat-docs-delete-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.prochat-docs-delete-body p {
+  margin: 8px 0;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+.prochat-docs-delete-warning {
+  color: #dc2626 !important;
+  font-weight: 500 !important;
+}
+
+.prochat-docs-delete-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px 20px;
+  border-top: 1px solid var(--border-color);
+}
+
+.prochat-docs-delete-cancel {
+  padding: 8px 16px;
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.prochat-docs-delete-cancel:hover {
+  background: var(--bg-tertiary);
+  color: #374151;
+}
+
+.prochat-docs-delete-confirm {
+  padding: 8px 16px;
+  background: #dc2626;
+  color: var(--bg-primary);
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.prochat-docs-delete-confirm:hover {
+  background: #b91c1c;
+}
+
+/* Responsividade */
+@media (max-width: 640px) {
+  .prochat-docs-delete-content {
+    width: 95%;
+    margin: 20px;
+  }
+  
+  .prochat-docs-delete-footer {
+    flex-direction: column;
+  }
+  
+  .prochat-docs-delete-cancel,
+  .prochat-docs-delete-confirm {
+    width: 100%;
+  }
+}
+
+/* ========================================
+   CSS PARA FUNCIONALIDADES DE COMPARTILHAMENTO DE DOCUMENTOS
+   ======================================== */
+
+/* Modal principal de compartilhamento */
+.prochat-docs-share-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: var(--z-modal);
+  animation: fadeIn var(--transition-slow);
+}
+
+.prochat-docs-share-content {
+  background: var(--bg-primary);
+  border-radius: 12px;
+  box-shadow: var(--shadow-heavy);
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow: hidden;
+  animation: slideUp var(--transition-slow);
+}
+
+/* Header do modal */
+.prochat-docs-share-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.prochat-docs-card-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.prochat-docs-card-btn {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.prochat-docs-share-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a202c;
+}
+
+.prochat-docs-share-close {
+  font-size: 24px;
+  color: #718096;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.prochat-docs-share-close:hover {
+  color: #2d3748;
+}
+
+/* Body do modal */
+.prochat-docs-share-body {
+  padding: 24px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Informações do documento */
+.prochat-docs-share-info {
+  margin-bottom: 24px;
+  padding: 16px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.prochat-docs-share-info h4 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.prochat-docs-share-info p {
+  margin: 0;
+  font-size: 14px;
+  color: #718096;
+}
+
+/* Seção de chats */
+.prochat-docs-share-chats h4 {
+  margin: 0 0 16px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a5568;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Estados de loading */
+.prochat-docs-share-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.prochat-docs-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border-color);
+  border-top: 3px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 12px;
+}
+
+.prochat-docs-share-loading p {
+  margin: 0;
+  font-size: 14px;
+  color: #718096;
+}
+
+/* Lista de chats */
+.prochat-docs-share-list {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+/* Estado vazio */
+.prochat-docs-share-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.prochat-docs-share-empty p {
+  margin: 8px 0 0 0;
+  font-size: 14px;
+  color: #718096;
+  line-height: 1.4;
+}
+
+/* Itens de chat */
+.prochat-docs-share-chat-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  user-select: none;
+}
+
+.prochat-docs-share-chat-item:last-child {
+  border-bottom: none;
+}
+
+.prochat-docs-share-chat-item:hover {
+  background: var(--bg-secondary);
+}
+
+.prochat-docs-share-chat-item.selected {
+  background: #ebf8ff;
+  border-left: 3px solid var(--primary-color);
+}
+
+.prochat-docs-share-chat-icon {
+  font-size: 20px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.prochat-docs-share-chat-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.prochat-docs-share-chat-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #2d3748;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.prochat-docs-share-chat-type {
+  font-size: 12px;
+  color: #718096;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* Footer do modal */
+.prochat-docs-share-footer {
+  padding: 20px 24px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.prochat-docs-share-cancel,
+.prochat-docs-share-confirm {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: none;
+}
+
+.prochat-docs-share-cancel {
+  background: var(--bg-secondary);
+  color: #4a5568;
+  border: 1px solid var(--border-color);
+}
+
+.prochat-docs-share-cancel:hover {
+  background: var(--bg-tertiary);
+}
+
+.prochat-docs-share-confirm {
+  background: var(--primary-color);
+  color: var(--bg-primary);
+}
+
+.prochat-docs-share-confirm:hover:not(:disabled) {
+  background: var(--accent-color);
+}
+
+.prochat-docs-share-confirm:disabled {
+  background: #cbd5e0;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ========================================
+   ANIMAÇÕES
+   ======================================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ========================================
+   RESPONSIVIDADE
+   ======================================== */
+
+@media (max-width: 768px) {
+  .prochat-docs-share-content {
+    width: 95%;
+    max-height: 90vh;
+  }
+
+  .prochat-docs-share-header {
+    padding: 16px 20px;
+  }
+
+  .prochat-docs-share-header h3 {
+    font-size: 16px;
+  }
+
+  .prochat-docs-share-body {
+    padding: 20px;
+  }
+
+  .prochat-docs-share-footer {
+    padding: 16px 20px;
+    flex-direction: column;
+  }
+
+  .prochat-docs-share-cancel,
+  .prochat-docs-share-confirm {
+    width: 100%;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .prochat-docs-share-chat-item {
+    padding: 10px 12px;
+  }
+
+  .prochat-docs-share-chat-icon {
+    font-size: 18px;
+    margin-right: 10px;
+  }
+
+  .prochat-docs-share-chat-name {
+    font-size: 13px;
+  }
+
+  .prochat-docs-share-chat-type {
+    font-size: 11px;
+  }
+}
+
+/* ========================================
+   ESTILOS ADICIONAIS PARA CONSISTÊNCIA
+   ======================================== */
+
+/* Scrollbar customizado para a lista */
+.prochat-docs-share-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.prochat-docs-share-list::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.prochat-docs-share-list::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 3px;
+}
+
+.prochat-docs-share-list::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}
+
+/* Foco para acessibilidade */
+.prochat-docs-share-chat-item:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.prochat-docs-share-cancel:focus,
+.prochat-docs-share-confirm:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Transições suaves */
+.prochat-docs-share-modal * {
+  box-sizing: border-box;
+}
+
+/* Estados de carregamento melhorados */
+.prochat-docs-share-loading p {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Modal de Recomendação de IA */
+
+.ai-recommendation-modal {
+  position: fixed;
+  z-index: var(--z-modal);
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ai-recommendation-modal.show {
+  display: flex;
+}
+
+.ai-recommendation-modal-content {
+  background-color: var(--bg-primary);
+  padding: 0;
+  border-radius: 12px;
+  width: 70%;
+  min-width: 800px;
+  max-width: 1120px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-heavy);
+  border: 1px solid var(--border-color);
+  margin: 0;
+  animation: modalSlideIn var(--transition-slow);
+  transform: scale(1);
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.ai-recommendation-modal .modal-header {
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  color: var(--bg-primary);
+  padding: 20px;
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.ai-recommendation-modal .modal-header h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.ai-recommendation-modal .close-modal-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: var(--bg-primary);
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background-color var(--transition-fast);
+  min-width: 36px;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ai-recommendation-modal .close-modal-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.ai-recommendation-modal .modal-body {
+  padding: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.ai-recommendation-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.ai-recommendation-form textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: vertical;
+  min-height: 100px;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  box-sizing: border-box;
+}
+
+.ai-recommendation-form textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.ai-recommendation-form textarea::placeholder {
+  color: var(--text-secondary);
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.analyze-btn, .cancel-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.analyze-btn {
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  color: var(--bg-primary);
+}
+
+.analyze-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+}
+
+.analyze-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.cancel-btn {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.cancel-btn:hover {
+  background-color: var(--bg-tertiary);
+}
+
+.recommendation-result {
+  animation: fadeInUp 0.5s ease;
+}
+
+.recommendation-result.hidden {
+  display: none;
+}
+
+.recommendation-header {
+  margin-bottom: 20px;
+}
+
+.recommendation-header h4 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.recommended-ai-card {
+  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+  border: 2px solid var(--primary-color);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.ai-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.ai-icon {
+  font-size: 2.5rem;
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  padding: 15px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
+  min-height: 60px;
+}
+
+.ai-details h5 {
+  margin: 0 0 5px 0;
+  color: var(--text-primary);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.ai-details p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.confidence-score {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.confidence-label {
+  font-weight: 500;
+  color: var(--text-primary);
+  min-width: 70px;
+}
+
+.confidence-bar {
+  flex: 1;
+  height: 8px;
+  background-color: var(--bg-tertiary);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.confidence-fill {
+  height: 100%;
+  background-color: #4CAF50;
+  transition: width 1s ease, background-color var(--transition-fast);
+  border-radius: 4px;
+}
+
+.confidence-percentage {
+  font-weight: 600;
+  color: var(--text-primary);
+  min-width: 40px;
+}
+
+.recommendation-reasons {
+  margin: 20px 0;
+  padding: 20px;
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.recommendation-reasons h6 {
+  margin: 0 0 12px 0;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.recommendation-reasons ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.recommendation-reasons li {
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.recommendation-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.use-ai-btn, .try-again-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.use-ai-btn {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: var(--bg-primary);
+}
+
+.use-ai-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+}
+
+.try-again-btn {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.try-again-btn:hover {
+  background-color: var(--bg-secondary);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1200px) {
+  .ai-recommendation-modal-content {
+    width: 50%;
+    min-width: 450px;
+  }
+}
+
+@media (max-width: 992px) {
+  .ai-recommendation-modal-content {
+    width: 60%;
+    min-width: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .ai-recommendation-modal-content {
+    width: 90%;
+    min-width: 300px;
+    max-height: 95vh;
+  }
+  
+  .ai-recommendation-modal .modal-body {
+    padding: 20px;
+  }
+  
+  .form-actions,
+  .recommendation-actions {
+    flex-direction: column;
+  }
+  
+  .ai-info {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+  
+  .confidence-score {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .confidence-label {
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .ai-recommendation-modal-content {
+    width: 95%;
+    min-width: 280px;
+  }
+  
+  .ai-recommendation-modal .modal-header {
+    padding: 15px;
+  }
+  
+  .ai-recommendation-modal .modal-header h3 {
+    font-size: 1.2rem;
+  }
+  
+  .ai-recommendation-modal .modal-body {
+    padding: 15px;
+  }
+}
+
+/* ========================================
+   MODAL GERAL - ESTILO MODERNO E MINIMALISTA
+   ======================================== */
+.prochat-docs-modal,
+.prochat-docs-delete-modal,
+.prochat-docs-detail-modal {
+  display: none;
+  position: fixed;
+  z-index: var(--z-modal);
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  animation: fadeIn var(--transition-slow);
+}
+
+prochat-docs-detail-modal {
+  display: none;
+  position: fixed;
+  z-index: var(--z-modal);
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  animation: fadeIn var(--transition-slow);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ========================================
+   CONTEÚDO DO MODAL - FORMATO CARD
+   ======================================== */
+.prochat-docs-modal-content,
+.prochat-docs-delete-content,
+.prochat-docs-detail-content {
+  background: var(--bg-primary);
+  margin: 5% auto;
+  padding: 0;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-heavy);
+  width: 100%;
+  max-width: 1000px;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-color);
+}
+
+/* ========================================
+   HEADER DO MODAL
+   ======================================== */
+.prochat-docs-modal-header,
+.prochat-docs-delete-header,
+.prochat-docs-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--border-color);
+  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary));
+}
+
+.prochat-docs-modal-title,
+.prochat-docs-delete-header h3,
+.prochat-docs-detail-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.prochat-docs-modal-close,
+.prochat-docs-delete-close,
+.prochat-docs-detail-close {
+  font-size: 28px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color var(--transition-fast);
+  line-height: 1;
+}
+
+.prochat-docs-modal-close:hover,
+.prochat-docs-delete-close:hover,
+.prochat-docs-detail-close:hover {
+  color: #374151;
+}
+
+/* ========================================
+   CORPO DO MODAL
+   ======================================== */
+.prochat-docs-modal-body,
+.prochat-docs-delete-body,
+.prochat-docs-detail-messages {
+  padding: 24px 32px;
+  flex: 1;
+  overflow-y: auto;
+  background: var(--bg-primary);
+}
+
+/* Loading e Empty States */
+.prochat-docs-loading,
+.prochat-docs-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.prochat-docs-loading p,
+.prochat-docs-empty h3,
+.prochat-docs-empty p {
+  margin: 16px 0 0 0;
+  color: var(--text-secondary);
+}
+
+.prochat-docs-empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+/* Lista de Documentos */
+.prochat-docs-list {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+@media (min-width: 768px) {
+  .prochat-docs-list {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+/* ========================================
+   CARDS DE DOCUMENTOS
+   ======================================== */
+.prochat-docs-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 16px;
+  box-shadow: var(--shadow-light);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.prochat-docs-card:hover {
+  box-shadow: var(--shadow-heavy);
+  transform: translateY(-2px);
+  border-color: var(--border-color);
+}
+
+.prochat-docs-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.prochat-docs-card-title-section {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.prochat-docs-card-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  flex: 1;
+}
+
+.prochat-docs-delete-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #ef4444;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  transition: background-color var(--transition-fast);
+}
+
+.prochat-docs-delete-btn:hover {
+  background-color: #fef2f2;
+}
+
+.prochat-docs-card-date {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.prochat-docs-card-preview {
+  margin-bottom: 16px;
+}
+
+.prochat-docs-card-notes {
+  font-size: 14px;
+  color: #4b5563;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.prochat-docs-card-count {
+  font-size: 12px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.prochat-docs-card-actions {
+  text-align: right;
+}
+
+.prochat-docs-card-btn {
+  background: var(--primary-color);
+  color: var(--bg-primary);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.prochat-docs-card-btn:hover {
+  background: var(--accent-color);
+}
+
+/* ========================================
+   MODAL DE DELETE
+   ======================================== */
+.prochat-docs-delete-body {
+  text-align: center;
+}
+
+.prochat-docs-delete-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.prochat-docs-delete-body p {
+  margin: 16px 0;
+  color: #374151;
+}
+
+.prochat-docs-delete-warning {
+  color: #ef4444;
+  font-weight: 500;
+}
+
+.prochat-docs-delete-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 24px 32px;
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-tertiary);
+}
+
+.prochat-docs-delete-cancel,
+.prochat-docs-delete-confirm {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.prochat-docs-delete-cancel {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  color: #374151;
+}
+
+.prochat-docs-delete-cancel:hover {
+  background: var(--bg-tertiary);
+}
+
+.prochat-docs-delete-confirm {
+  background: #ef4444;
+  border: 1px solid #ef4444;
+  color: var(--bg-primary);
+}
+
+.prochat-docs-delete-confirm:hover {
+  background: #dc2626;
+}
+
+/* ========================================
+   MODAL DE DETALHES
+   ======================================== */
+.prochat-docs-detail-info {
+  flex: 1;
+}
+
+.prochat-docs-detail-date {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.prochat-docs-detail-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.prochat-docs-download-btn {
+  background: #10b981;
+  color: var(--bg-primary);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.prochat-docs-download-btn:hover {
+  background: #059669;
+}
+
+.prochat-docs-detail-notes {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.prochat-docs-detail-notes h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.prochat-docs-detail-notes p {
+  margin: 0;
+  color: #4b5563;
+}
+
+.prochat-docs-detail-messages h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.prochat-docs-messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.prochat-docs-message {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 16px;
+  box-shadow: var(--shadow-light);
+}
+
+.prochat-docs-message.user {
+  background: #eff6ff;
+  border-color: #dbeafe;
+}
+
+.prochat-docs-message.ai {
+  background: var(--bg-tertiary);
+  border-color: var(--border-color);
+}
+
+.prochat-docs-message-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.prochat-docs-message.user .prochat-docs-message-header {
+  color: #1e40af;
+}
+
+.prochat-docs-message.ai .prochat-docs-message-header {
+  color: #374151;
+}
+
+.prochat-docs-message-content {
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+/* ========================================
+   RESPONSIVIDADE
+   ======================================== */
+@media (max-width: 768px) {
+  .prochat-docs-modal-content,
+  .prochat-docs-delete-content,
+  .prochat-docs-detail-content {
+    margin: 10% auto;
+    width: 95%;
+    max-width: 95%;
+    max-height: 90vh;
+  }
+
+  .prochat-docs-modal-header,
+  .prochat-docs-delete-header,
+  .prochat-docs-detail-header,
+  .prochat-docs-modal-body,
+  .prochat-docs-delete-body,
+  .prochat-docs-detail-messages,
+  .prochat-docs-delete-footer {
+    padding: 16px 20px;
+  }
+
+  .prochat-docs-card {
+    padding: 16px;
+  }
+
+  .prochat-docs-card-title {
+    font-size: 16px;
+  }
+}
+
+.modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            animation: fadeInBackdrop 0.4s ease-out forwards;
+            overflow-y: auto;
+        }
+
+        @keyframes fadeInBackdrop {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Container principal do modal */
+        .create-document-modal {
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 32px 64px rgba(0, 0, 0, 0.2), 0 8px 16px rgba(0, 0, 0, 0.1);
+            max-width: 560px;
+            width: 92%;
+            max-height: 88vh;
+            overflow: hidden;
+            transform: scale(0.85) translateY(20px);
+            animation: modalAppear 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes modalAppear {
+            to {
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* Cabeçalho */
+        .modal-header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 32px 36px 24px;
+            border-bottom: 1px solid #eef2f5;
+            background: linear-gradient(135deg, #fafbfc 0%, #ffffff 100%);
+        }
+
+        .document-title-heading {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a202c;
+            letter-spacing: -0.025em;
+            background: linear-gradient(135deg, #2d3748, #4a5568);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .close-modal-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 24px;
+            color: #718096;
+            transition: all 0.25s ease;
+            background: rgba(113, 128, 150, 0.08);
+            border: 1px solid transparent;
+            font-weight: 300;
+        }
+
+        .close-modal-btn:hover {
+            background: rgba(239, 68, 68, 0.1);
+            color: #e53e3e;
+            border-color: rgba(239, 68, 68, 0.2);
+            transform: scale(1.05);
+        }
+
+        /* Corpo do modal */
+        .modal-content-area {
+            padding: 28px 36px;
+            max-height: calc(88vh - 180px);
+            overflow-y: auto;
+        }
+
+        /* Grupos de formulário */
+        .input-field-group {
+            margin-bottom: 28px;
+        }
+
+        .input-field-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .field-label-text {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #2d3748;
+            letter-spacing: -0.01em;
+        }
+
+        /* Inputs e textarea */
+        .title-input-field,
+        .notes-textarea-field {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            font-size: 16px;
+            font-family: inherit;
+            background: #f7fafc;
+            color: #2d3748;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 400;
+        }
+
+        .title-input-field:focus,
+        .notes-textarea-field:focus {
+            outline: none;
+            border-color: #667eea;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .title-input-field::placeholder,
+        .notes-textarea-field::placeholder {
+            color: #a0aec0;
+            font-weight: 400;
+        }
+
+        .notes-textarea-field {
+            resize: vertical;
+            min-height: 90px;
+            line-height: 1.6;
+        }
+
+        /* Preview das mensagens */
+        .messages-preview-section {
+            margin-top: 36px;
+            padding-top: 28px;
+            border-top: 2px solid #f1f5f9;
+        }
+
+        .preview-section-title {
+            margin: 0 0 18px 0;
+            font-size: 17px;
+            font-weight: 700;
+            color: #2d3748;
+            letter-spacing: -0.01em;
+        }
+
+        .selected-messages-container {
+            background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%);
+            border-radius: 14px;
+            padding: 20px;
+            min-height: 80px;
+            border: 2px solid #e2e8f0;
+            color: #718096;
+            font-size: 15px;
+            line-height: 1.6;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .selected-messages-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+        }
+
+        /* Rodapé */
+        .modal-footer-section {
+            display: flex;
+            justify-content: flex-end;
+            gap: 16px;
+            padding: 24px 36px 32px;
+            border-top: 1px solid #eef2f5;
+            background: linear-gradient(180deg, #fafbfc 0%, #f7fafc 100%);
+        }
+
+        /* Botões */
+        .action-button {
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+            font-family: inherit;
+            letter-spacing: -0.01em;
+            min-width: 110px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cancel-action-btn {
+            background: #ffffff;
+            color: #718096;
+            border-color: #e2e8f0;
+        }
+
+        .cancel-action-btn:hover {
+            background: #f7fafc;
+            border-color: #cbd5e0;
+            color: #4a5568;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .create-document-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            border-color: transparent;
+            position: relative;
+        }
+
+        .create-document-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .create-document-btn:hover::before {
+            opacity: 1;
+        }
+
+        .create-document-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(102, 126, 234, 0.4);
+        }
+
+        .create-document-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Responsividade */
+        @media (max-width: 640px) {
+            .create-document-modal {
+                width: 96%;
+                margin: 16px;
+                max-height: 92vh;
+            }
+            
+            .modal-header-section,
+            .modal-content-area,
+            .modal-footer-section {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+            
+            .modal-footer-section {
+                flex-direction: column;
+            }
+            
+            .action-button {
+                width: 100%;
+            }
+
+            .document-title-heading {
+                font-size: 20px;
+            }
+        }
+
+        /* Scrollbar personalizada */
+        .modal-content-area::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .modal-content-area::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 3px;
+        }
+
+        .modal-content-area::-webkit-scrollbar-thumb {
+            background: #cbd5e0;
+            border-radius: 3px;
+        }
+
+        .modal-content-area::-webkit-scrollbar-thumb:hover {
+            background: #a0aec0;
+        }
+
+        /* ...existing code... */
+
+/* ===== RESPONSIVIDADE PARA WIDESCREEN ===== */
+/* Widescreen (ex.: 1920px e acima) */
+@media (min-width: 1921px) {
+  .prochat-sidebar {
+    width: 80px; /* Aumenta ligeiramente a sidebar para melhor proporção */
+  }
+  
+  .chat-input-container {
+    width: 80%; /* Aumenta a largura do input para ocupar mais espaço */
+  }
+  
+  .chat-input-field-main {
+    width: 80%;
+    font-size: 18px; /* Aumenta fonte para melhor legibilidade */
+  }
+  
+  .model-modal-content {
+    max-width: 1100px; /* Aumenta max-width do modal de modelos */
+  }
+  
+  .enhance-modal-content {
+    max-width: 700px; /* Aumenta max-width do modal de aprimoramento */
+  }
+  
+  .ai-recommendation-modal-content {
+    width: 80%; /* Permite que o modal ocupe mais largura */
+    min-width: 900px;
+  }
+  
+  .page-title-main {
+    font-size: 26px; /* Aumenta título para telas grandes */
+  }
+  
+  .message-ai-main {
+    font-size: 18px; /* Ajusta fonte das mensagens para melhor leitura */
+  }
+}
+
+/* Ultra-wide (ex.: 3440px e acima) */
+@media (min-width: 3441px) {
+  .prochat-sidebar {
+    width: 100px; /* Sidebar ainda maior para ultra-wide */
+  }
+  
+  .chat-input-container {
+    width: 90%; /* Mais espaço para input */
+  }
+  
+  .chat-input-field-main {
+    width: 90%;
+    font-size: 20px;
+  }
+  
+  .model-modal-content {
+    max-width: 1300px; /* Modal ainda maior */
+  }
+  
+  .enhance-modal-content {
+    max-width: 800px;
+  }
+  
+  .ai-recommendation-modal-content {
+    width: 85%;
+    min-width: 1000px;
+  }
+  
+  .page-title-main {
+    font-size: 30px;
+  }
+  
+  .message-ai-main {
+    font-size: 20px;
+  }
+  
+  .prochat-main {
+    padding: 10px; /* Ajusta padding geral para evitar excesso de espaço */
+  }
+}
+
+/* ...existing code... */

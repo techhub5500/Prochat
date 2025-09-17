@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <!-- Metadados e estilos -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProChat - Produtividade Máxima</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="../css/login-global.css">
+  <link rel="stylesheet" href="../css/ai-recomendation.css">
+  <link rel="stylesheet" href="../css/prochat.css">
+  <link rel="stylesheet" href="../css/sharing.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body class="body-main">
+  <!-- Seção de Login/Cadastro (visível por padrão) -->
+  <div id="login-section" class="login-section-main">
+    <!-- Container principal -->
+    <div class="container-main">
+      <!-- Painel esquerdo -->
+      <div class="left-panel-main">
+        <!-- Container do formulário -->
+        <div class="form-container-main">
+          <!-- Texto promocional -->
+          <p class="promo-text-main">Cadastre-se e garanta 14 dias de free trial</p>
+          <!-- Título do formulário -->
+          <h1 id="form-title" class="form-title-main">Login</h1>
+          <!-- Formulário de login -->
+          <form id="login-form" class="login-form-main">
+            <input type="text" id="identifier" class="identifier-input-main" placeholder="Nome de usuário ou E-mail" required>
+            <input type="password" id="password" class="password-input-main" placeholder="Senha" required>
+            <button type="submit" class="login-submit-btn-main">Entrar</button>
+          </form>
+          <!-- Formulário de cadastro -->
+          <form id="signup-form" class="signup-form-main" style="display: none;">
+            <input type="text" id="username" class="username-input-main" placeholder="Nome de usuário" required>
+            <input type="text" id="name" class="name-input-main" placeholder="Nome completo" required>
+            <input type="email" id="signup-email" class="signup-email-input-main" placeholder="E-mail" required>
+            <input type="password" id="signup-password" class="signup-password-input-main" placeholder="Senha" required>
+            <!-- NOVO: Campo Código da Organização -->
+            <input type="text" id="organization-code" class="organization-code-input-main" placeholder="Código da Organização" required>
+            <!-- Seção de planos -->
+            <div class="plans-main">
+              <h3 class="plans-title-main">Escolha seu plano:</h3>
+              <!-- Container dos cards de plano -->
+              <div class="plans-container-main">
+                <!-- Card do plano Teste -->
+                <div class="plan-card-main">
+                  <input type="radio" name="plan" value="teste" class="plan-radio-main" checked>
+                  <h4 class="plan-title-main">Plano Teste</h4>
+                  <p class="plan-desc-main">Gratuito por 14 dias</p>
+                  <p class="plan-value-main">Valor: R$ 0,00</p>
+                  <p class="plan-users-main">Usuários: 1</p>
+                </div>
+                <!-- Card do plano Master (desabilitado) -->
+                <div class="plan-card-disabled-main">
+                  <input type="radio" name="plan" value="master" class="plan-radio-disabled-main" disabled>
+                  <h4 class="plan-title-disabled-main">Plano Master</h4>
+                  <p class="plan-desc-disabled-main">R$70 por usuário</p>
+                  <p class="plan-users-disabled-main">Usuários: 1</p>
+                  <p class="unavailable-main">Indisponível</p>
+                </div>
+                <!-- Card do plano Plus (desabilitado) -->
+                <div class="plan-card-disabled-plus-main">
+                  <input type="radio" name="plan" value="plus" class="plan-radio-disabled-plus-main" disabled>
+                  <h4 class="plan-title-disabled-plus-main">Plano Plus</h4>
+                  <p class="plan-desc-disabled-plus-main">R$50 por usuário</p>
+                  <p class="plan-users-disabled-plus-main">Usuários: Múltiplos</p>
+                  <p class="unavailable-plus-main">Indisponível</p>
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="signup-submit-btn-main">Cadastrar</button>
+          </form>
+          <!-- Link de alternância -->
+          <p id="toggle-link" class="toggle-link-main">Não tem conta? <a href="#" id="toggle-signup" class="toggle-signup-link-main">Cadastrar</a></p>
+        </div>
+        <!-- Rodapé com logo -->
+        <div class="footer-brand-main">
+          <img src="../image/logo.ico" alt="Logo ProChat" class="footer-logo-main">
+          <span class="footer-text-main">ProChat - Produtividade máxima</span>
+        </div>
+      </div>
+      <!-- Painel direito -->
+      <div class="right-panel-main">
+        <!-- Placeholder de arte -->
+        <div class="art-placeholder-main">
+          <!-- Texto acima da imagem -->
+          <div class="text-above-main">
+            <h2 class="art-title-main">Transforme IA em Produtividade</h2>
+            <p class="art-desc-main">Centralize, colabore e otimize com ProChat.</p>
+          </div>
+          <!-- Imagem lateral -->
+          <img src="../image/login.png" alt="Imagem ProChat" class="side-image-main">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Histórico -->
+  <div id="history-modal" class="history-modal">
+    <div class="history-modal-content">
+      <span class="history-close">&times;</span>
+      <h2>Histórico de Chats</h2>
+      <input type="text" id="search-history" placeholder="Buscar por título ou conteúdo...">
+      <div id="history-list" class="history-list">
+        <!-- Chats serão carregados dinamicamente -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast de Novo Chat -->
+  <div id="new-chat-toast" class="new-chat-toast">
+    Novo chat iniciado!
+  </div>
+
+  <!-- Modal de Confirmação de Delete -->
+  <div id="delete-modal" class="delete-modal">
+    <div class="delete-modal-content">
+      <p class="delete-modal-message">Tem certeza que deseja deletar este chat?</p>
+      <div class="delete-modal-buttons">
+        <button id="delete-cancel-btn" class="delete-modal-btn cancel">Cancelar</button>
+        <button id="delete-confirm-btn" class="delete-modal-btn confirm">Deletar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Seleção de Modelo -->
+  <div id="model-modal" class="model-modal">
+    <div class="model-modal-content">
+      <span class="model-close">&times;</span>
+      <h2>Selecionar Modelo de IA</h2>
+      <div class="model-cards">
+        <div class="model-card">
+          <div class="model-icon">
+            <i class="fab fa-openai"></i>
+          </div>
+          <h3>ChatGPT (GPT-4o Mini)</h3>
+          <ul class="model-tasks">
+            <li>Respostas rápidas e eficientes</li>
+            <li>Conversação natural e fluida</li>
+            <li>Análise e resumo de texto</li>
+          </ul>
+          <button class="model-select-btn" data-model="gpt-4o-mini">Escolher Modelo</button>
+        </div>
+        <div class="model-card">
+          <div class="model-icon">
+            <i class="fab fa-anthropic"></i>
+          </div>
+          <h3>Claude (Sonnet 4)</h3>
+          <ul class="model-tasks">
+            <li>Raciocínio ético e responsável</li>
+            <li>Criatividade em redação e ideias</li>
+            <li>Análise de dados complexos</li>
+          </ul>
+          <button class="model-select-btn" data-model="claude-sonnet-4-20250514">Escolher Modelo</button>
+        </div>
+        <div class="model-card">
+          <div class="model-icon">
+            <i class="fab fa-google"></i>
+          </div>
+          <h3>Gemini (1.5 Pro)</h3>
+          <ul class="model-tasks">
+            <li>Processamento multimodal (texto, imagem)</li>
+            <li>Geração e depuração de código</li>
+            <li>Resolução de problemas criativos</li>
+          </ul>
+          <button class="model-select-btn" data-model="gemini-1.5-pro">Escolher Modelo</button>
+        </div>
+        <div class="model-card">
+          <div class="model-icon">
+            <i class="fas fa-brain"></i>
+          </div>
+          <h3>DeepSeek (Chat)</h3>
+          <ul class="model-tasks">
+            <li>Eficiência energética em respostas</li>
+            <li>Raciocínio matemático avançado</li>
+            <li>Tradução e compreensão multilíngue</li>
+          </ul>
+          <button class="model-select-btn" data-model="deepseek-chat">Escolher Modelo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+
+  <!-- Popup de IA -->
+  <div id="ai-popup" class="ai-popup">
+    <span id="ai-popup-close" class="ai-popup-close">&times;</span>
+    <p id="ai-popup-text">IA Selecionada</p>
+  </div>
+
+  <!-- Notificação toast -->
+  <div id="notification-toast" class="notification-toast">
+    <div class="toast-content">
+      <i class="fas fa-bell"></i>
+      <span id="toast-message"></span>
+    </div>
+  </div>
+
+  <!-- Scripts JavaScript -->
+  <script src="../js/login.js"></script>
+  <script src="../js/prochat.js"></script>
+  <script src="../js/sharing.js"></script>
+</body>
+</html>

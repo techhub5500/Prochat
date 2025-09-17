@@ -1,0 +1,41 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "concurrently \"npm run start:login\" \"npm run start:chat\" \"npm run start:sharing\"",
+    "start:login": "nodemon ./serverLogin.js",
+    "start:chat": "nodemon ./serverChat.js",
+    "start:sharing": "nodemon ./serverSharing.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.61.0",
+    "@google/genai": "^1.17.0",
+    "@google/generative-ai": "^0.24.1",
+    "axios": "^1.11.0",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "html2pdf.js": "^0.12.0",
+    "jsonwebtoken": "^9.0.2",
+    "mixpanel": "^0.18.1",
+    "mixpanel-browser": "^2.70.0",
+    "mongodb": "^6.19.0",
+    "mongoose": "^8.18.0",
+    "multer": "^2.0.2",
+    "natural": "^8.1.0",
+    "openai": "^5.19.1",
+    "shepherd.js": "^14.5.1",
+    "socket.io": "^4.8.1",
+    "tiktoken": "^1.0.22"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.10"
+  }
+}

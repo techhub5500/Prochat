@@ -1,0 +1,233 @@
+{
+  "models": {
+    "deepseek-chat": {
+      "name": "DeepSeek",
+      "icon": "🔧",
+      "description": "Especialista em código e raciocínio lógico",
+      "strengths": [
+        "Desenvolvimento de software e programação",
+        "Arquitetura de sistemas complexos", 
+        "Debugging e otimização de código",
+        "Raciocínio algorítmico avançado",
+        "Análise de performance e eficiência"
+      ],
+      "keywords": {
+        "high": [
+          "código", "programação", "algoritmo", "debug", "arquitetura", 
+          "performance", "otimização", "função", "variável", "loop",
+          "array", "objeto", "classe", "método", "api", "database",
+          "sql", "javascript", "python", "react", "node", "framework",
+          "biblioteca", "compilar", "executar", "sintaxe", "erro",
+          "exception", "refatorar", "clean code", "design pattern",
+          "estrutura de dados", "complexidade", "big o", "recursão"
+        ],
+        "medium": [
+          "lógica", "matemática", "eficiência", "sistema", "técnico",
+          "desenvolvimento", "implementar", "solução", "problema",
+          "análise", "calcular", "computar", "processar"
+        ],
+        "low": [
+          "desenvolver", "criar", "fazer", "construir", "montar"
+        ]
+      },
+      "patterns": [
+        "escreva.*código",
+        "como.*programar",
+        "otimiz.*performance",
+        "debug.*erro",
+        "criar.*função",
+        "implementar.*algoritmo",
+        "corrigir.*bug",
+        "melhorar.*código",
+        "como.*funciona.*código",
+        "explicar.*programação"
+      ],
+      "negative_keywords": [
+        "criativo", "história", "poema", "arte", "desenho", "música",
+        "marketing", "vendas", "redação publicitária"
+      ],
+      "complexity_preference": "high",
+      "confidence_boost": {
+        "programming": 0.9,
+        "logic": 0.8,
+        "efficiency": 0.9,
+        "mathematics": 0.8
+      }
+    },
+    "claude-sonnet-4-20250514": {
+      "name": "Claude",
+      "icon": "🧠",
+      "description": "Analista crítico e estratégico",
+      "strengths": [
+        "Análise crítica e estratégica profunda",
+        "Tomada de decisão ética e responsável",
+        "Pesquisa acadêmica e científica",
+        "Consultoria e planejamento estratégico",
+        "Análise de dados complexos e relatórios"
+      ],
+      "keywords": {
+        "high": [
+          "análise", "analise", "estratégia", "ética", "crítica",
+          "pesquisa", "acadêmico", "científico", "consulta", "consultoria",
+          "decisão", "dilema", "considerações", "avaliação", "relatório",
+          "estudo", "investigação", "metodologia", "hipótese", "conclusão",
+          "argumento", "evidência", "dados", "estatística", "comparar",
+          "contrastar", "avaliar", "julgar", "ponderar", "reflexão"
+        ],
+        "medium": [
+          "explicar", "analisar", "estudar", "examinar", "investigar",
+          "comparação", "avaliação", "pensamento", "raciocínio",
+          "lógico", "racional", "sistemático", "metódico"
+        ],
+        "low": [
+          "pensar", "considerar", "refletir", "meditar"
+        ]
+      },
+      "patterns": [
+        "analise.*este",
+        "avalie.*esta",
+        "compare.*entre",
+        "qual.*melhor.*estratégia",
+        "como.*devo.*decidir",
+        "preciso.*de.*conselho",
+        "dilema.*ético",
+        "considerações.*importantes",
+        "prós.*e.*contras",
+        "impacto.*de.*decisão"
+      ],
+      "negative_keywords": [
+        "código", "programação", "desenvolver sistema", "html", "css",
+        "javascript", "python", "sql"
+      ],
+      "complexity_preference": "high",
+      "confidence_boost": {
+        "analysis": 0.95,
+        "strategy": 0.9,
+        "ethics": 0.95,
+        "research": 0.9,
+        "decision_making": 0.9
+      }
+    },
+    "gpt-4o-mini": {
+      "name": "ChatGPT",
+      "icon": "💬",
+      "description": "Assistente versátil e comunicativo",
+      "strengths": [
+        "Comunicação clara e adaptável",
+        "Escrita criativa e copywriting",
+        "Educação e explicações didáticas",
+        "Brainstorming e geração de ideias",
+        "Suporte geral e conversação"
+      ],
+      "keywords": {
+        "high": [
+          "criativo", "escrita", "comunicação", "marketing", "copywriting",
+          "educação", "ensino", "explicação", "didático", "tutorial",
+          "brainstorming", "ideias", "versátil", "ajuda", "suporte",
+          "redação", "texto", "artigo", "post", "conteúdo", "blog",
+          "email", "carta", "mensagem", "apresentação", "discurso"
+        ],
+        "medium": [
+          "criar", "escrever", "ajudar", "explicar", "ensinar",
+          "gerar", "produzir", "desenvolver", "elaborar",
+          "simples", "fácil", "rápido", "prático"
+        ],
+        "low": [
+          "fazer", "dizer", "mostrar", "contar"
+        ]
+      },
+      "patterns": [
+        "escreva.*um.*texto",
+        "crie.*um.*artigo",
+        "me.*ajude.*com",
+        "preciso.*de.*ideias",
+        "como.*explicar.*para",
+        "redija.*um.*email",
+        "faça.*um.*resumo",
+        "conte.*uma.*história",
+        "brainstorm.*para",
+        "gere.*ideias.*para"
+      ],
+      "negative_keywords": [
+        "programação avançada", "arquitetura de software", "algoritmo complexo",
+        "análise estratégica profunda", "pesquisa acadêmica"
+      ],
+      "complexity_preference": "medium",
+      "confidence_boost": {
+        "creativity": 0.9,
+        "communication": 0.95,
+        "education": 0.9,
+        "versatility": 0.95,
+        "brainstorming": 0.9
+      }
+    },
+    "gemini-1.5-pro": {
+      "name": "Gemini",
+      "icon": "🌟",
+      "description": "Especialista multimodal e pesquisa",
+      "strengths": [
+        "Processamento de imagens e conteúdo visual",
+        "Pesquisa em tempo real e integração web",
+        "Análise de documentos visuais complexos", 
+        "Tradução e processamento multilíngue",
+        "Integração com serviços Google"
+      ],
+      "keywords": {
+        "high": [
+          "imagem", "visual", "foto", "vídeo", "multimodal",
+          "pesquisa", "buscar", "encontrar", "procurar", "atual",
+          "tempo real", "integração", "google", "mapas", "tradução",
+          "traduzir", "idioma", "língua", "multilíngue", "documento",
+          "pdf", "gráfico", "tabela", "diagrama", "infográfico"
+        ],
+        "medium": [
+          "ver", "analisar imagem", "descrever", "identificar",
+          "localizar", "geografico", "regional", "internacional",
+          "informações atuais", "notícias", "tendências"
+        ],
+        "low": [
+          "mostrar", "visualizar", "apresentar"
+        ]
+      },
+      "patterns": [
+        "analise.*esta.*imagem",
+        "descreva.*esta.*foto",
+        "pesquise.*sobre",
+        "encontre.*informações.*sobre",
+        "traduza.*para",
+        "onde.*fica",
+        "informações.*atuais.*sobre",
+        "o.*que.*está.*acontecendo",
+        "notícias.*sobre",
+        "tendências.*de"
+      ],
+      "negative_keywords": [
+        "apenas texto", "sem imagens", "programação pura",
+        "matemática abstrata"
+      ],
+      "complexity_preference": "medium",
+      "confidence_boost": {
+        "multimodal": 0.95,
+        "search": 0.9,
+        "translation": 0.9,
+        "visual_analysis": 0.95,
+        "integration": 0.8
+      }
+    }
+  },
+  "rules": {
+    "fallback_priority": ["gpt-4o-mini", "claude-sonnet-4-20250514", "deepseek-chat", "gemini-1.5-pro"],
+    "multimodal_triggers": ["imagem", "visual", "foto", "vídeo", "ver", "mostrar", "analisar imagem"],
+    "urgency_triggers": ["urgente", "rápido", "agora", "imediato", "já", "pressa"],
+    "programming_triggers": ["código", "programar", "desenvolver", "algoritmo", "função", "debug"],
+    "creative_triggers": ["criar", "escrever", "redação", "história", "poema", "criativo"],
+    "analysis_triggers": ["analisar", "avaliar", "comparar", "estratégia", "decidir", "ética"],
+    "minimum_confidence": 0.3,
+    "word_count_thresholds": {
+      "simple": 10,
+      "medium": 20, 
+      "complex": 30
+    },
+    "penalty_multiplier": 0.3
+  }
+}

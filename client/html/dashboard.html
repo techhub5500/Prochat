@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <!-- Metadados e estilos -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProChat - Produtividade Máxima</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="../css/login-global.css">
+  <link rel="stylesheet" href="../css/tutorial.css">
+  <link rel="stylesheet" href="../css/prochat.css">
+  <link rel="stylesheet" href="../css/sharing.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/shepherd.js@11.0.1/dist/js/shepherd.min.js"></script>
+
+  <!-- Scripts para Mixpanel e JWT -->
+  <script src="https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+  
+  <!-- Script inline para inicializar Mixpanel com token injetado -->
+<script>
+  // Inicializar Mixpanel com o token direto
+  const mixpanelToken = '0f9344739b91e073e43c7215d9cad87f';
+  console.log('🔧 Inicializando Mixpanel com token:', mixpanelToken?.substring(0, 8) + '...'); // Log para debug (parcial por segurança)
+  
+  if (mixpanelToken) {
+    window.mixpanelClient = mixpanel.init(mixpanelToken, {
+      debug: true, // ✅ ADICIONADO: Ativar debug para desenvolvimento
+      track_pageview: true, // ✅ ADICIONADO: Rastrear pageviews automaticamente
+      persistence: 'localStorage' // ✅ ADICIONADO: Usar localStorage para persistência
+    });
+    
+    console.log('✅ Mixpanel inicializado com sucesso');
+    
+    // ✅ ADICIONADO: Teste de conectividade
+    window.mixpanelClient.track('Page Loaded', {
+      page: 'dashboard',
+      timestamp: new Date().toISOString()
+    });
+  } else {
+    console.warn('⚠️ Token do Mixpanel não encontrado');
+  }
+</script>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/68cad1d7de7aec1923096089/1j5c47cqh';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+</head>
+<body class="body-main">
+  <!-- Seção do Dashboard (visível por padrão) -->
+  <div id="dashboard-section" class="dashboard-section-main">
+    <!-- Container principal do dashboard -->
+    <div class="dashboard-container-main">
+      <!-- Sidebar lateral -->
+      <div class="sidebar-main" id="sidebar">
+        <!-- Cabeçalho da sidebar com toggle ao lado direito -->
+        <div class="sidebar-header-main">
+          <img src="../image/logo.ico" alt="Logo ProChat" class="sidebar-logo-main">
+          <span class="sidebar-title-main">ProChat</span>
+          <button type="button" class="custom-sidebar-toggle-main" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+        </div>
+        <!-- Navegação -->
+        <nav class="sidebar-nav-main">
+          <ul class="sidebar-nav-list-main">
+            <li class="nav-item-main active" id="nav-prochat">
+              <a href="#" class="nav-link-main"><i class="fas fa-comments"></i> ProChat</a>
+            </li>
+            <li class="nav-item-main" id="nav-sharing">
+              <a href="#" class="nav-link-main"><i class="fas fa-share-alt"></i> Sharing</a>
+            </li>
+          </ul>
+        </nav>
+        <!-- Botão de logout -->
+        <div class="sidebar-footer-main">
+          <button type="button" class="logout-btn-main" id="logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
+        </div>
+      </div>
+      <!-- Área de conteúdo -->
+      <div class="content-main" id="content">
+        <!-- Conteúdo da página ProChat (ativo por padrão) -->
+        <div class="page-main" id="page-prochat">
+          <div class="prochat-container">
+            <!-- Sidebar interna do ProChat -->
+            <div class="prochat-sidebar" id="prochat-sidebar">
+              <button type="button" class="prochat-btn" id="new-chat-btn" title="Novo Chat"><i class="fas fa-plus"></i></button>
+              <button type="button" class="prochat-btn" id="history-btn" title="Histórico"><i class="fas fa-history"></i></button>
+              <button type="button" class="prochat-btn" id="model-btn" title="Modelo IA"><i class="fas fa-brain"></i></button>
+              <button type="button" class="prochat-btn" id="docs-btn" title="Documentos"><i class="fas fa-folder"></i></button>
+              <button type="button" class="prochat-btn" id="sugestion-btn" title="indicação de IA"><i class="fa-solid fa-question"></i></button>
+              <button type="button" class="prochat-btn" id="share-btn" title="Compartilhar mensagens"><i class="fas fa-share-alt"></i></button>
+            </div>
+            <!-- Área principal do chat -->
+            <div class="prochat-main">
+              <!-- Área do chat -->
+              <div class="chat-area-main">
+                <div class="chat-messages-main" id="chat-messages">
+                  <!-- Mensagens serão adicionadas dinamicamente -->
+                </div>
+                <!-- Input com botões embutidos -->
+                <div class="chat-input-container">
+                  <button type="button" class="enhance-btn" id="enhance-btn" title="Aprimorar Prompt"><i class="fas fa-wand-magic-sparkles"></i></button>
+                  <textarea id="chat-input" class="chat-input-field-main" placeholder="Digite sua mensagem..."></textarea>
+                  <button type="button" class="send-embedded-btn" id="send-embedded-btn" title="Enviar"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Conteúdo da página Sharing -->
+         <!-- Conteúdo da página Sharing -->
+        <div class="page-main hidden" id="page-sharing">
+          <div class="sharing-container">
+            <div class="sharing-layout">
+              <!-- Sidebar de usuários online -->
+              <div class="users-sidebar">
+                <div class="users-header">
+                  <h3><i class="fas fa-users"></i> Usuários Online</h3>
+                  <span class="online-count">0</span>
+                </div>
+                <div class="users-list" id="online-users-list">
+                  <!-- Usuários serão listados aqui -->
+                </div>
+              </div>
+
+              <!-- Área principal do chat -->
+              <div class="chat-main">
+                <div class="chat-placeholder" id="chat-placeholder">
+                  <div class="placeholder-content">
+                    <i class="fas fa-comments"></i>
+                    <h3>Selecione um usuário para começar a conversar</h3>
+                    <p>Escolha alguém da lista de usuários online para iniciar uma conversa em tempo real</p>
+                  </div>
+                </div>
+
+                <!-- ✅ CORRIGIDO: Formulário invisível com onsubmit="return false;" -->
+                <form id="chat-form" onsubmit="return false;" style="display: none;">
+                  <input type="file" id="file-input" accept=".pdf,.jpg,.jpeg,.png,.gif,.doc,.docx,.txt">
+                </form>
+
+                <div class="chat-window hidden" id="chat-window">
+                  <!-- Header do chat -->
+                  <div class="chat-header">
+                    <div class="chat-user-info">
+                      <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                      </div>
+                      <div class="user-details">
+                        <span class="user-name" id="current-chat-username"></span>
+                        <span class="user-status online">Online</span>
+                      </div>
+                    </div>
+                    <div class="chat-header-actions">
+                      <!-- Ícones adicionados -->
+                      <button type="button" class="header-icon" id="agenda-icon" title="Agenda">
+                        <i class="fas fa-calendar"></i>
+                      </button>
+                      <button type="button" class="close-chat-btn" id="close-chat-btn">
+                        <i class="fas fa-times"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Mensagens do chat -->
+                  <div class="chat-messages-container" id="chat-messages-container">
+                    <div class="typing-indicator hidden" id="typing-indicator">
+                      <span class="typing-user"></span> está digitando...
+                    </div>
+                  </div>
+
+                  <!-- ✅ CORRIGIDO: Não é mais um form, apenas div -->
+                  <div class="chat-input-area">
+                    <button type="button" class="attach-file-btn" id="attach-file-btn" title="Anexar arquivo">
+                      <i class="fas fa-paperclip"></i>
+                    </button>
+                    <textarea id="chat-message-input" placeholder="Digite sua mensagem..." rows="1"></textarea>
+                    <button type="button" class="send-message-btn" id="send-message-btn" title="Enviar mensagem">
+                      <i class="fas fa-paper-plane"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+  <!-- Modal de Histórico -->
+  <div id="history-modal" class="history-modal">
+    <div class="history-modal-content">
+      <span class="history-close">&times;</span>
+      <h2>Histórico de Chats</h2>
+      <input type="text" id="search-history" placeholder="Buscar por título ou conteúdo...">
+      <div id="history-list" class="history-list">
+        <!-- Chats serão carregados dinamicamente -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast de Novo Chat -->
+  <div id="new-chat-toast" class="new-chat-toast">
+    Novo chat iniciado!
+  </div>
+
+  <!-- Modal de Confirmação de Delete -->
+  <div id="delete-modal" class="delete-modal">
+    <div class="delete-modal-content">
+      <p class="delete-modal-message">Tem certeza que deseja deletar este chat?</p>
+      <div class="delete-modal-buttons">
+        <button type="button" id="delete-cancel-btn" class="delete-modal-btn cancel">Cancelar</button>
+        <button type="button" id="delete-confirm-btn" class="delete-modal-btn confirm">Deletar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Seleção de Modelo -->
+  <div id="model-modal" class="model-modal">
+    <div class="model-modal-content">
+      <span class="model-close">&times;</span>
+      <h2>Selecionar Modelo de IA</h2>
+      <div class="model-cards">
+        <div class="model-card">
+          <div class="model-icon">
+            <i class="fab fa-openai"></i>
+          </div>
+          <h3>ChatGPT (GPT-5)</h3>
+          <ul class="model-tasks">
+            <li>Respostas rápidas e eficientes</li>
+            <li>Conversação natural e fluida</li>
+            <li>Análise e resumo de texto</li>
+          </ul>
+          <button type="button" class="model-select-btn" data-model="gpt-4o-mini">Escolher Modelo</button>
+        </div>
+        <div class="model-card">
+          <div class="model-icon">
+            <i class="fab fa-anthropic"></i>
+          </div>
+          <h3>Claude (Sonnet 4)</h3>
+          <ul class="model-tasks">
+            <li>Raciocínio ético e responsável</li>
+            <li>Criatividade em redação e ideias</li>
+            <li>Análise de dados complexos</li>
+          </ul>
+          <button type="button" class="model-select-btn" data-model="claude-sonnet-4-20250514">Escolher Modelo</button>
+        </div>
+        <div class="model-card">
+          <div class="model-icon">
+            <i class="fab fa-google"></i>
+          </div>
+          <h3>Gemini (1.5 Pro)</h3>
+          <ul class="model-tasks">
+            <li>Processamento multimodal (texto, imagem)</li>
+            <li>Geração e depuração de código</li>
+            <li>Resolução de problemas criativos</li>
+          </ul>
+          <button type="button" class="model-select-btn" data-model="gemini-1.5-pro">Escolher Modelo</button>
+        </div>
+        <div class="model-card">
+          <div class="model-icon">
+            <i class="fas fa-brain"></i>
+          </div>
+          <h3>DeepSeek (Chat)</h3>
+          <ul class="model-tasks">
+            <li>Eficiência energética em respostas</li>
+            <li>Raciocínio matemático avançado</li>
+            <li>Tradução e compreensão multilíngue</li>
+          </ul>
+          <button type="button" class="model-select-btn" data-model="deepseek-chat">Escolher Modelo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup de IA -->
+  <div id="ai-popup" class="ai-popup">
+    <span id="ai-popup-close" class="ai-popup-close">&times;</span>
+    <p id="ai-popup-text">IA Selecionada</p>
+  </div>
+
+  <!-- Notificação toast -->
+  <div id="notification-toast" class="notification-toast">
+    <div class="toast-content">
+      <i class="fas fa-bell"></i>
+      <span id="toast-message"></span>
+    </div>
+  </div>
+
+  <!-- Modal do Calendário -->
+<div id="calendar-modal" class="modal">
+  <div class="modal-content calendar-modal-content">
+    <div class="modal-header">
+      <h3>Calendário Compartilhado</h3>
+      <button type="button" class="close-modal-btn" id="close-calendar-modal">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="calendar-controls">
+        <button type="button" class="view-btn active" data-view="month">Mensal</button>
+        <button type="button" class="view-btn" data-view="week">Semanal</button>
+        <button type="button" class="view-btn" data-view="day">Diária</button>
+        <div class="calendar-nav">
+          <button type="button" id="prev-period"><i class="fas fa-chevron-left"></i></button>
+          <span id="current-period"></span>
+          <button type="button" id="next-period"><i class="fas fa-chevron-right"></i></button>
+        </div>
+      </div>
+      <div id="calendar-container">
+        <!-- Header dos dias da semana -->
+        <div class="calendar-week-header">
+          <div>Dom</div>
+          <div>Seg</div>
+          <div>Ter</div>
+          <div>Qua</div>
+          <div>Qui</div>
+          <div>Sex</div>
+          <div>Sáb</div>
+        </div>
+        <!-- Grid dos dias -->
+        <div class="calendar-grid"></div>
+      </div>
+      <div id="event-history" class="event-history">
+        <h4>Histórico de Alterações</h4>
+        <div id="history-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Detalhes do Evento -->
+<div id="event-details-modal" class="modal event-modal">
+  <div class="modal-content event-modal-content">
+    <div class="modal-header">
+      <h3 id="event-modal-title">Novo Evento</h3>
+      <button type="button" class="close-modal-btn" id="close-event-modal">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form id="event-details-form">
+        <div class="form-group">
+          <label for="event-title">Título</label>
+          <input type="text" id="event-title" placeholder="Título do evento" required>
+        </div>
+        <div class="form-group">
+          <label for="event-description">Descrição</label>
+          <textarea id="event-description" placeholder="Descrição do evento" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="event-datetime">Data e Hora</label>
+          <input type="datetime-local" id="event-datetime" required>
+        </div>
+        <div class="form-group">
+          <label for="event-participants">Participantes</label>
+          <input type="text" id="event-participants" placeholder="Participantes (separados por vírgula)">
+        </div>
+        <div class="form-group">
+          <label for="event-tag">Tag</label>
+          <select id="event-tag">
+            <option value="">Selecionar tag</option>
+            <option value="reunião">#reunião</option>
+            <option value="prazo">#prazo</option>
+            <option value="feedback">#feedback</option>
+          </select>
+        </div>
+        <div class="form-actions">
+          <button type="submit" id="save-event-btn">Salvar</button>
+          <button type="button" id="cancel-event-btn">Cancelar</button>
+          <button type="button" id="delete-event-btn" class="delete-btn hidden">Excluir</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal de Indicação de IA -->
+<!-- Modal de Indicação de IA -->
+<div id="ai-recommendation-modal" class="modal ai-recommendation-modal">
+  <div class="modal-content ai-recommendation-modal-content">
+    <div class="modal-header">
+      <h3>Indicação de IA</h3>
+      <button type="button" class="close-modal-btn" id="close-ai-recommendation-modal">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="ai-recommendation-form">
+        <div class="form-group">
+          <label for="task-description">Descreva o que você quer fazer e indicaremos a melhor IA para Você:</label>
+          <textarea 
+            id="task-description" 
+            placeholder="Ex: Criar um algoritmo de ordenação, escrever um artigo sobre marketing, analisar dados de vendas..." 
+            rows="4"
+            required
+          ></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" id="analyze-task-btn" class="analyze-btn">
+            <i class="fas fa-magic"></i> Analisar e Recomendar
+          </button>
+          <button type="button" id="cancel-recommendation-btn" class="cancel-btn">
+            Cancelar
+          </button>
+        </div>
+      </div>
+      
+      <!-- Resultado da recomendação -->
+      <div id="recommendation-result" class="recommendation-result hidden">
+        <div class="recommendation-header">
+          <h4>IA Recomendada:</h4>
+        </div>
+        <div class="recommended-ai-card">
+          <div class="ai-info">
+            <span class="ai-icon" id="recommended-ai-icon">🤖</span>
+            <div class="ai-details">
+              <h5 id="recommended-ai-name">Nome da IA</h5>
+              <p id="recommended-ai-description">Descrição da IA</p>
+            </div>
+          </div>
+          <div class="confidence-score">
+            <span class="confidence-label">Confiança:</span>
+            <div class="confidence-bar">
+              <div class="confidence-fill" id="confidence-fill"></div>
+            </div>
+            <span class="confidence-percentage" id="confidence-percentage">0%</span>
+          </div>
+        </div>
+        
+      
+        
+        <div class="recommendation-actions">
+          <button type="button" id="use-recommended-ai-btn" class="use-ai-btn">
+            <i class="fas fa-check"></i> Usar esta IA
+          </button>
+          <button type="button" id="try-another-analysis-btn" class="try-again-btn">
+            <i class="fas fa-redo"></i> Tentar Novamente
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts JavaScript -->
+<script src="../js/login.js"></script>
+<script src="../js/prochat.js"></script>
+<script src="../js/sharing.js"></script>
+<script src="../js/features.js"></script>
+<script src="../js/ai-recommendation.js"></script>
+</body>
+</html>

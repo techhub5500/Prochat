@@ -1,0 +1,653 @@
+/* ===== RESET E BASE ===== */
+.body-main, .body-main html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Inter', sans-serif;
+  background-color: #FAFAFA;
+  color: #1A1A1A;
+  line-height: 1.5;
+  font-size: 16px;
+  overflow-y: auto; 
+}
+
+/* ===== LAYOUT PRINCIPAL ===== */
+.container-main {
+  display: flex;
+  min-height: 100vh;
+  padding: 40px;
+}
+
+.left-panel-main {
+  flex: 1;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #FFFFFF;
+  padding: 40px;
+  border-radius: 12px;
+  margin: 20px;
+}
+
+.right-panel-main {
+  position: relative;
+  flex: 1;
+  background-color: #F9F9F9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #1A1A1A;
+  text-align: center;
+  padding: 40px;
+  border-radius: 12px;
+  margin: 20px;
+}
+
+/* ===== FORMULÁRIO ===== */
+.form-container-main {
+  width: 100%;
+  max-width: 520px;
+}
+
+.promo-text-main {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  color: #666666;
+  margin-bottom: 10px;
+}
+
+.form-title-main {
+  text-align: center;
+  color: #1A1A1A;
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin-bottom: 30px;
+}
+
+.identifier-input-main, .password-input-main, .username-input-main, .name-input-main, .signup-email-input-main, .signup-password-input-main, .organization-code-input-main {
+  width: 100%;
+  padding: 16px;
+  margin: 15px 0;
+  border: 1px solid #DDD;
+  border-radius: 8px;
+  background-color: transparent;
+  box-sizing: border-box;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.identifier-input-main:focus, .password-input-main:focus, .username-input-main:focus, .name-input-main:focus, .signup-email-input-main:focus, .signup-password-input-main:focus {
+  outline: none;
+  border: 2px solid #3B82F6;
+}
+
+.login-submit-btn-main, .signup-submit-btn-main {
+  width: 100%;
+  padding: 16px;
+  background-color: #3B82F6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 20px;
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  transition: background-color 0.2s;
+}
+
+.login-submit-btn-main:hover, .signup-submit-btn-main:hover {
+  background-color: #2563EB;
+}
+
+/* ===== SEÇÃO DE PLANOS ===== */
+.plans-main {
+  margin: 30px 0;
+}
+
+.plans-title-main {
+  font-size: 20px;
+  font-weight: 500;
+  color: #1A1A1A;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+}
+
+.plans-container-main {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.plan-card-main, .plan-card-disabled-main, .plan-card-disabled-plus-main {
+  flex: 1;
+  padding: 20px;
+  text-align: center;
+  background-color: #FFFFFF;
+  border: 1px solid #E0E0E0;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  opacity: 1;
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.plan-card-disabled-main, .plan-card-disabled-plus-main {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+  animation: none;
+}
+
+.plan-card-main:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.plan-radio-main, .plan-radio-disabled-main, .plan-radio-disabled-plus-main {
+  margin-bottom: 10px;
+}
+
+.plan-title-main, .plan-title-disabled-main, .plan-title-disabled-plus-main {
+  font-size: 18px;
+  font-weight: 500;
+  color: #1A1A1A;
+  margin: 10px 0;
+}
+
+.plan-desc-main, .plan-desc-disabled-main, .plan-desc-disabled-plus-main, .plan-value-main, .plan-users-main, .plan-users-disabled-main, .plan-users-disabled-plus-main {
+  font-size: 14px;
+  color: #666666;
+  margin: 5px 0;
+}
+
+/* ===== LINKS E TOGGLES ===== */
+.toggle-link-main {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-size: 14px;
+  color: #333333;
+}
+
+.toggle-signup-link-main {
+  color: #3B82F6;
+  text-decoration: none;
+}
+
+.toggle-signup-link-main:hover {
+  text-decoration: underline;
+}
+
+/* ===== PAINEL DIREITO ===== */
+.art-placeholder-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.text-above-main {
+  margin-bottom: 20px;
+}
+
+.art-title-main {
+  font-size: 28px;
+  margin-bottom: 15px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.art-desc-main {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+
+.side-image-main {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  border-radius: 12px;
+  margin-top: 30px;
+}
+
+/* ===== RODAPÉ ===== */
+.footer-brand-main {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333333;
+}
+
+.footer-logo-main {
+  width: 30px;
+  height: auto;
+}
+
+/* ===== UTILITÁRIOS ===== */
+.unavailable-main, .unavailable-plus-main {
+  color: #DC2626;
+  font-weight: 500;
+}
+
+/* ===== ANIMAÇÕES ===== */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* ===== RESPONSIVIDADE ===== */
+/* Notebook (ex.: 1366px) */
+@media (max-width: 1400px) {
+  .container-main {
+    padding: 20px;
+  }
+  .left-panel-main, .right-panel-main {
+    padding: 20px;
+    margin: 10px;
+  }
+  .form-container-main {
+    max-width: 450px;
+  }
+  .plans-container-main {
+    gap: 15px;
+  }
+  .plan-card-main, .plan-card-disabled-main, .plan-card-disabled-plus-main {
+    padding: 15px;
+  }
+  .form-title-main {
+    font-size: 24px;
+  }
+  .art-title-main {
+    font-size: 24px;
+  }
+}
+
+/* Computador normal (ex.: 1920px) - padrão já otimizado */
+
+/* Widescreen (ex.: 2560px e acima) */
+@media (min-width: 1921px) {
+  .form-container-main {
+    max-width: 600px;
+  }
+  .plans-container-main {
+    gap: 25px;
+  }
+  .plan-card-main, .plan-card-disabled-main, .plan-card-disabled-plus-main {
+    padding: 25px;
+  }
+  .form-title-main {
+    font-size: 32px;
+  }
+  .art-title-main {
+    font-size: 32px;
+  }
+  .left-panel-main, .right-panel-main {
+    padding: 50px;
+  }
+}
+
+/* ===== DASHBOARD ===== */
+.dashboard-container-main {
+  display: flex;
+  height: 100vh;
+  background-color: #FAFAFA;
+  font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+.sidebar-main {
+  width: 200px;
+  background-color: #FFFFFF;
+  border-right: 1px solid #F0F0F0;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease;
+  position: relative;
+  box-shadow: none;
+}
+
+.sidebar-main.collapsed {
+  width: 69px;
+
+}
+
+.sidebar-header-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 25px 20px;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.sidebar-main.collapsed .sidebar-header-main {
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 15px 20px;
+}
+
+.sidebar-main.collapsed .sidebar-title-main {
+  margin-bottom: 10px;
+}
+
+.sidebar-main.collapsed .custom-sidebar-toggle-main {
+  margin-left: 0;
+  align-self: flex-start;
+}
+
+.sidebar-logo-main {
+  width: 28px;
+  height: auto;
+  margin-right: 12px;
+
+}
+
+.sidebar-title-main {
+  font-size: 18px;
+  font-weight: 400;
+  color: #1A1A1A;
+  flex: 1;
+}
+
+.custom-sidebar-toggle-main {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #262290;
+  transition: color 0.2s;
+}
+
+.sidebar-main.collapsed .sidebar-title-main {
+  display: none;
+}
+
+.sidebar-nav-main {
+  flex: 1;
+  padding: 25px 0;
+}
+
+.sidebar-nav-list-main {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item-main, .nav-item-sharing-main {
+  margin-bottom: 5px;
+}
+
+.nav-link-main, .nav-link-sharing-main {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  color: #666666;
+  text-decoration: none;
+  transition: background-color 0.2s;
+  font-weight: 300;
+}
+
+.nav-link-main i, .nav-link-sharing-main i {
+  margin-right: 10px;
+  width: 22px;
+  font-size: 21.6px;
+}
+
+.nav-link-main:hover, .nav-link-sharing-main:hover {
+  background-color: #F5F5F5;
+}
+
+.nav-item-main.active .nav-link-main {
+  background: linear-gradient(135deg, #FFFFFF, #E0F2FE);
+  color: #1A1A1A;
+}
+
+.sidebar-main.collapsed .nav-link-main, .sidebar-main.collapsed .nav-link-sharing-main {
+  font-size: 0;
+  justify-content: center;
+  padding: 12px;
+}
+
+.sidebar-main.collapsed .sidebar-logo-main {
+  margin-bottom: 12px; /* 20% maior que o margin-bottom original do título (10px) */
+}
+
+.sidebar-main.collapsed .nav-link-main i, .sidebar-main.collapsed .nav-link-sharing-main i {
+  font-size: 21.6px;
+  margin-right: 0;
+}
+
+.sidebar-footer-main {
+  padding: 25px 20px;
+  border-top: 1px solid #F0F0F0;
+}
+
+.logout-btn-main {
+  width: 100%;
+  padding: 12px;
+  background-color: #F5F5F5;
+  color: #666666;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 300;
+  transition: background-color 0.2s;
+}
+
+.logout-btn-main i {
+  margin-right: 8px;
+}
+
+.logout-btn-main:hover {
+  background-color: #E0E0E0;
+}
+
+.sidebar-main.collapsed .logout-btn-main {
+  font-size: 0;
+  padding: 12px;
+}
+
+.sidebar-main.collapsed .logout-btn-main i {
+  font-size: 14px;
+  margin-right: 0;
+}
+
+.content-main {
+  flex: 1;
+  overflow-y: auto;
+  background-color: #FAFAFA;
+}
+
+.page-main, .page-sharing-main {
+  display: block;
+}
+
+.page-main.hidden, .page-sharing-main.hidden {
+  display: none;
+}
+
+.page-title-main, .page-title-sharing-main {
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+}
+
+.page-title-main i, .page-title-sharing-main i {
+  margin-right: 10px;
+  color: #3B82F6;
+}
+
+.chat-area-main, .sharing-area-main {
+  margin-top: 20px;
+  border: none;
+  border-radius: 8px;
+  padding: 5px;
+  background-color: #FFFFFF;
+  box-shadow: none;
+}
+
+.chat-messages-main, .shared-messages-main {
+  height: 350px;
+  overflow-y: auto;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.chat-input-main, .sharing-input-main {
+  display: flex;
+  gap: 15px;
+}
+
+.chat-input-field-main, .sharing-input-field-main {
+  flex: 1;
+  padding: 5px;
+  border: 1px solid #E0E0E0;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #FAFAFA;
+}
+
+.send-btn-main, .share-btn-main {
+  padding: 12px 20px;
+  background-color: #3B82F6;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+}
+
+.send-btn-main i, .share-btn-main i {
+  margin-right: 8px;
+}
+
+.send-btn-main:hover, .share-btn-main:hover {
+  background-color: #2563EB;
+}
+
+/* ===== RESPONSIVIDADE PARA DASHBOARD ===== */
+@media (max-width: 768px) {
+  .sidebar-main {
+    width: 230px;
+  }
+  .sidebar-main.collapsed {
+    width: 58px;
+  }
+  .content-main {
+    padding: 20px;
+  }
+  .chat-area-main, .sharing-area-main {
+    padding: 20px;
+  }
+}
+
+/* ...existing code... */
+
+/* ===== RESPONSIVIDADE ===== */
+/* Notebook (ex.: 1366px) */
+@media (max-width: 1400px) {
+  .container-main {
+    padding: 20px;
+  }
+  .left-panel-main, .right-panel-main {
+    padding: 20px;
+    margin: 10px;
+  }
+  .form-container-main {
+    max-width: 450px;
+  }
+  .plans-container-main {
+    gap: 15px;
+  }
+  .plan-card-main, .plan-card-disabled-main, .plan-card-disabled-plus-main {
+    padding: 15px;
+  }
+  .form-title-main {
+    font-size: 24px;
+  }
+  .art-title-main {
+    font-size: 24px;
+  }
+}
+
+/* Computador normal (ex.: 1920px) - padrão já otimizado */
+
+/* Widescreen (ex.: 2560px e acima) */
+@media (min-width: 1921px) {
+  .container-main {
+    padding: 60px;
+  }
+  .left-panel-main, .right-panel-main {
+    padding: 60px;
+    margin: 30px;
+  }
+  .form-container-main {
+    max-width: 700px;
+  }
+  .plans-container-main {
+    gap: 30px;
+  }
+  .plan-card-main, .plan-card-disabled-main, .plan-card-disabled-plus-main {
+    padding: 30px;
+  }
+  .form-title-main {
+    font-size: 36px;
+  }
+  .art-title-main {
+    font-size: 36px;
+  }
+  .side-image-main {
+    max-width: 500px;
+  }
+}
+
+/* Ultra-wide (ex.: 3440px e acima) */
+@media (min-width: 3441px) {
+  .container-main {
+    padding: 80px;
+  }
+  .left-panel-main, .right-panel-main {
+    padding: 80px;
+    margin: 40px;
+  }
+  .form-container-main {
+    max-width: 800px;
+  }
+  .plans-container-main {
+    gap: 40px;
+  }
+  .plan-card-main, .plan-card-disabled-main, .plan-card-disabled-plus-main {
+    padding: 40px;
+  }
+  .form-title-main {
+    font-size: 40px;
+  }
+  .art-title-main {
+    font-size: 40px;
+  }
+  .side-image-main {
+    max-width: 600px;
+  }
+}
+
+/* ...existing code... */

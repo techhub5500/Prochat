@@ -14,7 +14,7 @@ let allUsers = [];
 async function loadChatHistory(recipientId) {
   try {
     const token = localStorage.getItem('token');
-    const response = await fetch(`/api/messages/${recipientId}`, {  // Substituído: removido localhost
+    const response = await fetch(`https://prochat-sharing.onrender.com/api/messages/${recipientId}`, {  // Substituído: removido localhost
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -67,7 +67,7 @@ async function loadChatHistory(recipientId) {
 async function fetchAllUsers() {
   try {
     const token = localStorage.getItem('token');
-    const response = await fetch('/api/users', {  // Substituído: removido localhost
+    const response = await fetch('https://prochat-sharing.onrender.com/api/users', {  // Substituído: removido localhost
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -313,7 +313,7 @@ function initializeSharing() {
 
   console.log('Inicializando sharing para usuário:', currentUser.username, 'Organização:', currentOrganization);
 
-  socket = io('', {  // Substituído: removido localhost para conexão relativa
+  socket = io('https://prochat-sharing.onrender.com', {  // Substituído: removido localhost para conexão relativa
     auth: {
       token: localStorage.getItem('token'),
       userId: currentUser.id,
@@ -629,7 +629,7 @@ function addFileToChat(fileData, type, senderName, timestamp) {
           <span class="file-name">${escapeHtml(fileData.originalName)}</span>
           <span class="file-size">${formatFileSize(fileData.size)}</span>
         </div>
-        <a href="/uploads/${fileData.filename}" target="_blank" class="download-btn" title="Baixar arquivo">  <!-- Substituído: removido localhost -->
+        <a href="https://prochat-sharing.onrender.com/uploads/${fileData.filename}" target="_blank" class="download-btn" title="Baixar arquivo">  <!-- Substituído: removido localhost -->
           <i class="fas fa-download"></i>
         </a>
       </div>
@@ -691,7 +691,7 @@ function uploadFile(formData, file) {
     size: file.size
   }, 'sent', currentUser.username, new Date());
   
-  fetch('/upload', {  // Substituído: removido localhost
+  ffetch('https://prochat-sharing.onrender.com/upload', {  // Substituído: removido localhost
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${token}`
@@ -735,7 +735,7 @@ function showOfflineMode() {
     `;
     
     document.getElementById('login-btn').addEventListener('click', () => {
-      window.location.href = '/login';
+      window.location.href = 'https://prochat-login.onrender.com/login.html';
     });
   }
   

@@ -114,7 +114,12 @@ app.use(cors({
     'http://127.0.0.1:3001',
     'http://localhost:5500',
     'http://127.0.0.1:5500',
-    // Adicionar URLs do Render, ex: 'https://prochat-login.onrender.com'
+    'https://prochat-frontend.onrender.com/dashboard.html',
+    // URLs do Render - ADICIONAR ESTAS LINHAS:
+    'https://prochat-frontend.onrender.com',  // URL do seu site estático
+    'https://prochat-login.onrender.com',
+    'https://prochat-chat.onrender.com',
+    'https://prochat-sharing.onrender.com'
   ],
   credentials: true
 }));
@@ -130,7 +135,12 @@ const io = socketIo(server, {
       'http://127.0.0.1:3001',
       'http://localhost:5500',
       'http://127.0.0.1:5500',
-      // Adicionar URLs do Render
+      'https://prochat-frontend.onrender.com/dashboard.html',
+      // URLs do Render - ADICIONAR ESTAS LINHAS:
+      'https://prochat-frontend.onrender.com',  // URL do seu site estático
+      'https://prochat-login.onrender.com',
+      'https://prochat-chat.onrender.com',
+      'https://prochat-sharing.onrender.com'
     ],
     methods: ['GET', 'POST'],
     credentials: true

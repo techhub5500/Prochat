@@ -82,8 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const password = document.getElementById('password').value;
 
       try {
-        // Faz requisição POST para a API de login
-        const response = await fetch('http://localhost:3000/api/login', {
+        // Faz requisição POST para a API de login (substituído: removido localhost)
+        const response = await fetch('/api/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ identifier, password }),
@@ -120,8 +120,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const organizationCode = document.getElementById('organization-code')?.value?.trim() || null;
 
       try {
-        // Faz requisição POST para a API de cadastro
-        const response = await fetch('http://localhost:3000/api/signup', {
+        // Faz requisição POST para a API de cadastro (substituído: removido localhost)
+        const response = await fetch('/api/signup', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username, name, email, password, plan, organizationCode }),
@@ -219,6 +219,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     }
-
   }
 });

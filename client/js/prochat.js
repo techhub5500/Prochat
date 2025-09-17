@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return function executedFunction(...args) {
         const later = () => {
           clearTimeout(timeout);
-          func(...args);
+          func(() => args);
         };
         clearTimeout(timeout);
         timeout = setTimeout(later, wait);
@@ -106,26 +106,27 @@ document.addEventListener('DOMContentLoaded', () => {
     },
 
     // ✅ ADICIONADA: Função para extrair userId do token JWT
-  getUserIdFromToken() {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) return null;
-      
-      // Usar jwt_decode se disponível, senão fazer decode manual
-      if (typeof jwt_decode !== 'undefined') {
-        const decoded = jwt_decode(token);
-        return decoded.id || decoded.userId || decoded.sub;
-      } else {
-        // Decode manual básico (apenas para JWT válidos)
-        const payload = token.split('.')[1];
-        const decoded = JSON.parse(atob(payload));
-        return decoded.id || decoded.userId || decoded.sub;
+    getUserIdFromToken() {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) return null;
+        
+        // Usar jwt_decode se disponível, senão fazer decode manual
+        if (typeof jwt_decode !== 'undefined') {
+          const decoded = jwt_decode(token);
+          return decoded.id || decoded.userId || decoded.sub;
+        } else {
+          // Decode manual básico (apenas para JWT válidos)
+          const payload = token.split('.')[1];
+          const decoded = JSON.parse(atob(payload));
+          return decoded.id || decoded.userId || decoded.sub;
+        }
+      } catch (error) {
+        console.error('Erro ao decodificar token:', error);
+        return null;
       }
-    } catch (error) {
-      console.error('Erro ao decodificar token:', error);
-      return null;
-    }
-  },
+    },
+
     // Popup moderno
     showPopup(message) {
       const overlay = document.createElement('div');
@@ -200,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!token) return;
 
       try {
-        const response = await fetch('http://localhost:5001/api/chat/history', {
+        const response = await fetch('/api/chat/history', {
           method: 'GET',
           headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -295,7 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
       confirmBtn.addEventListener('click', async () => {
         closeModal();
         try {
-          const response = await fetch(`http://localhost:5001/api/chat/${chatId}`, {
+          const response = await fetch(`/api/chat/${chatId}`, {
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${token}` }
           });
@@ -421,7 +422,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!token) return 'Erro: Usuário não autenticado';
 
       try {
-        const response = await fetch('http://localhost:5001/api/chat/ai', {
+        const response = await fetch('/api/chat/ai', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -463,7 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Salvar mensagem do usuário
         try {
-          await fetch('http://localhost:5001/api/chat/message', {
+          await fetch('/api/chat/message', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -513,7 +514,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sendBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i>';
 
         // Salvar resposta da IA
-        fetch('http://localhost:5001/api/chat/message', {
+        fetch('/api/chat/message', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -648,7 +649,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const token = Utils.checkAuth();
         if (!token) return;
 
-        const response = await fetch('http://localhost:5001/api/documents', {
+        const response = await fetch('/api/documents', {
           method: 'GET',
           headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -738,46 +739,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Modal de confirmação de delete
     showDeleteModal(doc) {
-  const modal = document.createElement('div');
-  modal.className = 'prochat-docs-delete-modal';
-  modal.innerHTML = `
-    <div class="prochat-docs-delete-content">
-      <div class="prochat-docs-delete-header">
-        <h3>Confirmar Exclusão</h3>
-        <span class="prochat-docs-delete-close">&times;</span>
-      </div>
+      const modal = document.createElement('div');
+      modal.className = 'prochat-docs-delete-modal';
+      modal.innerHTML = `
+        <div class="prochat-docs-delete-content">
+          <div class="prochat-docs-delete-header">
+            <h3>Confirmar Exclusão</h3>
+            <span class="prochat-docs-delete-close">&times;</span>
+          </div>
 
-      <div class="prochat-docs-delete-body">
-        <div class="prochat-docs-delete-icon">⚠️</div>
-        <p>Tem certeza que deseja deletar o documento <strong>"${doc.title}"</strong>?</p>
-        <p class="prochat-docs-delete-warning">Esta ação não pode ser desfeita.</p>
-      </div>
+          <div class="prochat-docs-delete-body">
+            <div class="prochat-docs-delete-icon">⚠️</div>
+            <p>Tem certeza que deseja deletar o documento <strong>"${doc.title}"</strong>?</p>
+            <p class="prochat-docs-delete-warning">Esta ação não pode ser desfeita.</p>
+          </div>
 
-      <div class="prochat-docs-delete-footer">
-        <button class="prochat-docs-delete-cancel">Cancelar</button>
-        <button class="prochat-docs-delete-confirm">Deletar</button>
-      </div>
-    </div>
-  `;
+          <div class="prochat-docs-delete-footer">
+            <button class="prochat-docs-delete-cancel">Cancelar</button>
+            <button class="prochat-docs-delete-confirm">Deletar</button>
+          </div>
+        </div>
+      `;
 
-  document.body.appendChild(modal);
+      document.body.appendChild(modal);
 
-  // ✅ CORREÇÃO: FORÇAR EXIBIÇÃO DO MODAL
-  modal.style.display = 'block';
+      // ✅ CORREÇÃO: FORÇAR EXIBIÇÃO DO MODAL
+      modal.style.display = 'block';
 
-  const closeModal = () => document.body.removeChild(modal);
+      const closeModal = () => document.body.removeChild(modal);
 
-  modal.querySelector('.prochat-docs-delete-close').addEventListener('click', closeModal);
-  modal.querySelector('.prochat-docs-delete-cancel').addEventListener('click', closeModal);
-  window.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
-  });
+      modal.querySelector('.prochat-docs-delete-close').addEventListener('click', closeModal);
+      modal.querySelector('.prochat-docs-delete-cancel').addEventListener('click', closeModal);
+      window.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
 
-  modal.querySelector('.prochat-docs-delete-confirm').addEventListener('click', async () => {
-    await this.deleteDocument(doc.documentId);
-    closeModal();
-  });
-},
+      modal.querySelector('.prochat-docs-delete-confirm').addEventListener('click', async () => {
+        await this.deleteDocument(doc.documentId);
+        closeModal();
+      });
+    },
 
     // Deletar documento
     async deleteDocument(documentId) {
@@ -785,7 +786,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!token) return;
 
       try {
-        const response = await fetch(`http://localhost:5001/api/documents/${documentId}`, {
+        const response = await fetch(`/api/documents/${documentId}`, {
           method: 'DELETE',
           headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -805,583 +806,580 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Mostrar detalhes do documento
     showDocumentDetail(doc) {
-  const modal = document.createElement('div');
-  modal.className = 'prochat-docs-detail-modal';
-  modal.innerHTML = `
-    <div class="prochat-docs-detail-content">
-      <div class="prochat-docs-detail-header">
-        <div class="prochat-docs-detail-info">
-          <h2 class="prochat-docs-detail-title">${doc.title}</h2>
-          <span class="prochat-docs-detail-date">
-            Criado em ${new Date(doc.createdAt).toLocaleDateString('pt-BR', {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit'
-            })}
-          </span>
-        </div>
-        <div class="prochat-docs-detail-actions">
-          <button class="prochat-docs-download-btn" id="download-btn">📥 Download</button>
-          <span class="prochat-docs-detail-close">&times;</span>
-        </div>
-      </div>
-
-      <div class="prochat-docs-detail-messages">
-        <h3>Conversação</h3>
-        <div class="prochat-docs-messages-list">
-          ${doc.messages.map(msg => `
-            <div class="prochat-docs-message ${msg.sender === 'user' ? 'user' : 'ai'}">
-              <div class="prochat-docs-message-header">
-                <span class="prochat-docs-message-sender">
-                  ${msg.sender === 'user' ? '👤 Você' : '🤖 IA'}
-                </span>
-              </div>
-              <div class="prochat-docs-message-content">
-                ${msg.html || msg.content}
-              </div>
+      const modal = document.createElement('div');
+      modal.className = 'prochat-docs-detail-modal';
+      modal.innerHTML = `
+        <div class="prochat-docs-detail-content">
+          <div class="prochat-docs-detail-header">
+            <div class="prochat-docs-detail-info">
+              <h2 class="prochat-docs-detail-title">${doc.title}</h2>
+              <span class="prochat-docs-detail-date">
+                Criado em ${new Date(doc.createdAt).toLocaleDateString('pt-BR', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}
+              </span>
             </div>
-          `).join('')}
-        </div>
-      </div>
-    </div>
-  `;
+            <div class="prochat-docs-detail-actions">
+              <button class="prochat-docs-download-btn" id="download-btn">📥 Download</button>
+              <span class="prochat-docs-detail-close">&times;</span>
+            </div>
+          </div>
 
-  document.body.appendChild(modal);
-
-  // Forçar exibição do modal
-  modal.style.display = 'block';
-
-  const closeModal = () => document.body.removeChild(modal);
-
-  modal.querySelector('.prochat-docs-detail-close').addEventListener('click', closeModal);
-  modal.querySelector('#download-btn').addEventListener('click', () => {
-    this.downloadDocumentAsPDF(doc);
-  });
-
-  window.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
-  });
-
-  // Aplicar highlight.js - CORRIGIDO PARA EVITAR ERRO DE RE-HIGHLIGHT
-  if (typeof hljs !== 'undefined') {
-    setTimeout(() => {
-      try {
-        // Limpar highlights anteriores para evitar erro
-        hljs.unhighlightAll();
-        // Aplicar highlight novamente
-        hljs.highlightAll();
-      } catch (error) {
-        console.warn('Erro ao aplicar highlight:', error);
-      }
-    }, 100);
-  }
-},
-
-    // Download como PDF
-    // Download como PDF
-// Download como PDF
-// Download como PDF
-downloadDocumentAsPDF(doc) {
-  if (typeof html2pdf === 'undefined') {
-    Utils.showPopup('Biblioteca de PDF não carregada.');
-    return;
-  }
-
-  Utils.showPopup('Gerando PDF...');
-
-  // ✅ Usando as MESMAS classes CSS do arquivo prochat.css
-  const pdfContent = `
-    <!DOCTYPE html>
-    <html lang="pt-BR">
-    <head>
-      <meta charset="UTF-8">
-      <title>${doc.title}</title>
-      <style>
-        /* ========================================
-           RESET E GERAIS - Copiado do prochat.css
-           ======================================== */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-          font-family: 'Inter', 'Segoe UI', sans-serif;
-          background: white;
-          padding: 20px;
-          color: #1e293b;
-          line-height: 1.6;
-          orphans: 3;
-          widows: 3;
-        }
-
-        /* ========================================
-           HEADER - Usando classes similares do CSS
-           ======================================== */
-        .pdf-header {
-          text-align: center;
-          margin-bottom: 30px;
-          padding-bottom: 20px;
-          border-bottom: 2px solid #3B82F6;
-        }
-
-        .page-title-main {
-          font-size: 28px;
-          font-weight: 600;
-          color: #3B82F6;
-          margin-bottom: 8px;
-          position: relative;
-          display: inline-block;
-        }
-
-        .page-title-main::after {
-          content: '';
-          position: absolute;
-          bottom: -8px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 60px;
-          height: 3px;
-          background: linear-gradient(90deg, #3B82F6, #8B5CF6);
-          border-radius: 2px;
-        }
-
-        .pdf-date {
-          font-size: 14px;
-          color: #666;
-          margin-top: 12px;
-        }
-
-        /* ========================================
-           NOTES - Usando estilo similar aos modals
-           ======================================== */
-        .pdf-notes {
-          background-color: #F8F9FA;
-          border: 1px solid #E5E7EB;
-          border-left: 4px solid #3B82F6;
-          border-radius: 8px;
-          padding: 20px;
-          margin-bottom: 30px;
-        }
-
-        .pdf-notes h3 {
-          font-size: 18px;
-          font-weight: 600;
-          color: #3B82F6;
-          margin-bottom: 12px;
-        }
-
-        .pdf-notes p {
-          margin: 0;
-          color: #374151;
-          line-height: 1.5;
-        }
-
-        /* ========================================
-           MESSAGES - USANDO AS MESMAS CLASSES DO CSS
-           ======================================== */
-        .pdf-messages h3 {
-          font-size: 22px;
-          font-weight: 600;
-          color: #1A1A1A;
-          margin-bottom: 20px;
-          padding-bottom: 10px;
-          border-bottom: 1px solid #E0E0E0;
-        }
-
-        /* CLASSES EXATAS DO CSS ORIGINAL */
-        .message-main {
-          max-width: 100%;
-          padding: 12px 18px;
-          border-radius: 20px;
-          font-size: 16px;
-          font-weight: 400;
-          line-height: 1.6;
-          word-wrap: break-word;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-          margin-bottom: 30px;
-          position: relative;
-          break-inside: avoid;
-          page-break-inside: avoid;
-          width: 100%;
-        }
-
-        .message-user-main {
-          background: linear-gradient(135deg, #3B82F6, #1D4ED8);
-          color: #FFFFFF;
-          border-bottom-right-radius: 4px;
-          align-self: flex-end;
-          margin-left: 0;
-          break-inside: avoid;
-        }
-
-        .message-ai-main {
-          background-color: #F8F9FA;
-          color: #374151;
-          border: 1px solid #E5E7EB;
-          border-bottom-left-radius: 4px;
-          align-self: flex-start;
-          margin-right: 0;
-          break-inside: avoid;
-        }
-
-        /* MARKDOWN STYLING - CLASSES EXATAS DO CSS */
-        .message-ai-main {
-          font-family: 'Inter', 'Segoe UI', sans-serif;
-          font-size: 16px;
-          line-height: 1.6;
-          color: #1e293b;
-          overflow-wrap: break-word;
-        }
-
-        .message-ai-main h1,
-        .message-ai-main h2,
-        .message-ai-main h3,
-        .message-ai-main h4,
-        .message-ai-main h5,
-        .message-ai-main h6 {
-          font-weight: 600;
-          margin: 1em 0 0.5em 0;
-          line-height: 1.3;
-          color: #0f172a;
-          break-after: avoid;
-          page-break-after: avoid;
-        }
-
-        .message-ai-main p {
-          margin: 0.75em 0;
-          color: #1e293b;
-          orphans: 2;
-          widows: 2;
-        }
-
-        .message-ai-main ul,
-        .message-ai-main ol {
-          margin: 0.75em 0 0.75em 1.5em;
-          padding: 0;
-        }
-
-        .message-ai-main li {
-          margin: 0.4em 0;
-        }
-
-        .message-ai-main strong {
-          font-weight: 600;
-        }
-
-        .message-ai-main em {
-          font-style: italic;
-        }
-
-        .message-ai-main code {
-          background-color: #f1f5f9;
-          color: #dc2626;
-          font-family: ui-monospace, monospace;
-          font-size: 0.9em;
-          padding: 0.15em 0.35em;
-          border-radius: 4px;
-          word-wrap: break-word;
-          overflow-wrap: break-word;
-          white-space: pre-wrap;
-        }
-
-        .message-ai-main pre {
-          background-color: #0d1117;
-          color: #e6edf3;
-          font-family: ui-monospace, monospace;
-          font-size: 0.85em;
-          line-height: 1.4;
-          border-radius: 8px;
-          padding: 0.8em;
-          overflow-x: visible;
-          word-wrap: break-word;
-          white-space: pre-wrap;
-          margin: 1em -10px;
-          break-inside: avoid;
-          page-break-inside: avoid;
-          max-width: calc(100% + 20px);
-          width: calc(100% + 20px);
-          box-sizing: border-box;
-          position: relative;
-        }
-
-        .message-ai-main pre code {
-          background: none;
-          color: inherit;
-          padding: 0;
-          font-size: inherit;
-          word-wrap: break-word;
-          white-space: pre-wrap;
-          overflow-wrap: break-word;
-        }
-
-        .message-ai-main blockquote {
-          border-left: 4px solid #d1d5db;
-          margin: 1em 0;
-          padding-left: 1em;
-          color: #475569;
-          font-style: italic;
-        }
-
-        .message-ai-main a {
-          color: #2563eb;
-          text-decoration: none;
-        }
-
-        .message-ai-main a:hover {
-          text-decoration: underline;
-        }
-
-        .message-ai-main table {
-          border-collapse: collapse;
-          width: 100%;
-          margin: 1em 0;
-          font-size: 0.9em;
-          break-inside: avoid;
-          page-break-inside: avoid;
-        }
-
-        .message-ai-main th,
-        .message-ai-main td {
-          border: 1px solid #e2e8f0;
-          padding: 0.6em 0.8em;
-          text-align: left;
-        }
-
-        .message-ai-main th {
-          background-color: #f8fafc;
-          font-weight: 600;
-        }
-
-        .message-ai-main hr {
-          border: none;
-          border-top: 1px solid #e2e8f0;
-          margin: 1.5em 0;
-        }
-
-        /* Header da mensagem */
-        .message-header {
-          font-weight: 600;
-          font-size: 14px;
-          margin-bottom: 8px;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          break-after: avoid;
-          page-break-after: avoid;
-        }
-
-        .message-user-main .message-header {
-          color: rgba(255, 255, 255, 0.9);
-        }
-
-        .message-ai-main .message-header {
-          color: #374151;
-        }
-
-        /* Print optimization - MELHORADO */
-        @media print {
-          body { 
-            font-size: 12px;
-            orphans: 3;
-            widows: 3;
-          }
-          
-          .message-main { 
-            break-inside: avoid;
-            page-break-inside: avoid;
-            margin-bottom: 20px;
-          }
-          
-          .message-ai-main pre { 
-            break-inside: avoid;
-            page-break-inside: avoid;
-            font-size: 0.8em;
-            padding: 0.6em;
-            margin: 1em -15px;
-            max-width: calc(100% + 30px);
-            width: calc(100% + 30px);
-            max-height: 200px;
-            overflow: visible;
-          }
-          
-          .message-ai-main table { 
-            break-inside: avoid;
-            page-break-inside: avoid;
-          }
-          
-          .page-title-main { 
-            break-after: avoid;
-            page-break-after: avoid;
-          }
-          
-          .pdf-notes { 
-            break-inside: avoid;
-            page-break-inside: avoid;
-          }
-
-          .message-header {
-            break-after: avoid;
-            page-break-after: avoid;
-          }
-
-          p {
-            orphans: 2;
-            widows: 2;
-          }
-
-          .message-ai-main h1,
-          .message-ai-main h2,
-          .message-ai-main h3 {
-            break-after: avoid;
-            page-break-after: avoid;
-          }
-        }
-
-        /* Container para as mensagens */
-        .pdf-container {
-          max-width: 100%;
-          margin: 0;
-          padding: 0;
-        }
-      </style>
-    </head>
-    <body>
-      <div class="pdf-container">
-        <div class="pdf-header">
-          <h1 class="page-title-main">${doc.title}</h1>
-          <div class="pdf-date">
-            Criado em ${new Date(doc.createdAt).toLocaleDateString('pt-BR', {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit'
-            })}
+          <div class="prochat-docs-detail-messages">
+            <h3>Conversação</h3>
+            <div class="prochat-docs-messages-list">
+              ${doc.messages.map(msg => `
+                <div class="prochat-docs-message ${msg.sender === 'user' ? 'user' : 'ai'}">
+                  <div class="prochat-docs-message-header">
+                    <span class="prochat-docs-message-sender">
+                      ${msg.sender === 'user' ? '👤 Você' : '🤖 IA'}
+                    </span>
+                  </div>
+                  <div class="prochat-docs-message-content">
+                    ${msg.html || msg.content}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
           </div>
         </div>
+      `;
 
-        ${doc.notes ? `
-          <div class="pdf-notes">
-            <h3>Observações</h3>
-            <p>${doc.notes}</p>
-          </div>
-        ` : ''}
+      document.body.appendChild(modal);
 
-        <div class="pdf-messages">
-          <h3>Conversação</h3>
-          ${doc.messages.map((msg, index) => `
-            <div class="message-main ${msg.sender === 'user' ? 'message-user-main' : 'message-ai-main'}">
-              <div class="message-header">
-                ${msg.sender === 'user' ? '👤 Você' : '🤖 IA'} - Mensagem ${index + 1}
-              </div>
-              <div class="message-content">
-                ${msg.html || msg.content}
+      // Forçar exibição do modal
+      modal.style.display = 'block';
+
+      const closeModal = () => document.body.removeChild(modal);
+
+      modal.querySelector('.prochat-docs-detail-close').addEventListener('click', closeModal);
+      modal.querySelector('#download-btn').addEventListener('click', () => {
+        this.downloadDocumentAsPDF(doc);
+      });
+
+      window.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+
+      // Aplicar highlight.js - CORRIGIDO PARA EVITAR ERRO DE RE-HIGHLIGHT
+      if (typeof hljs !== 'undefined') {
+        setTimeout(() => {
+          try {
+            // Limpar highlights anteriores para evitar erro
+            hljs.unhighlightAll();
+            // Aplicar highlight novamente
+            hljs.highlightAll();
+          } catch (error) {
+            console.warn('Erro ao aplicar highlight:', error);
+          }
+        }, 100);
+      }
+    },
+
+    // Download como PDF
+    downloadDocumentAsPDF(doc) {
+      if (typeof html2pdf === 'undefined') {
+        Utils.showPopup('Biblioteca de PDF não carregada.');
+        return;
+      }
+
+      Utils.showPopup('Gerando PDF...');
+
+      // ✅ Usando as MESMAS classes CSS do arquivo prochat.css
+      const pdfContent = `
+        <!DOCTYPE html>
+        <html lang="pt-BR">
+        <head>
+          <meta charset="UTF-8">
+          <title>${doc.title}</title>
+          <style>
+            /* ========================================
+               RESET E GERAIS - Copiado do prochat.css
+               ======================================== */
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            
+            body {
+              font-family: 'Inter', 'Segoe UI', sans-serif;
+              background: white;
+              padding: 20px;
+              color: #1e293b;
+              line-height: 1.6;
+              orphans: 3;
+              widows: 3;
+            }
+
+            /* ========================================
+               HEADER - Usando classes similares do CSS
+               ======================================== */
+            .pdf-header {
+              text-align: center;
+              margin-bottom: 30px;
+              padding-bottom: 20px;
+              border-bottom: 2px solid #3B82F6;
+            }
+
+            .page-title-main {
+              font-size: 28px;
+              font-weight: 600;
+              color: #3B82F6;
+              margin-bottom: 8px;
+              position: relative;
+              display: inline-block;
+            }
+
+            .page-title-main::after {
+              content: '';
+              position: absolute;
+              bottom: -8px;
+              left: 50%;
+              transform: translateX(-50%);
+              width: 60px;
+              height: 3px;
+              background: linear-gradient(90deg, #3B82F6, #8B5CF6);
+              border-radius: 2px;
+            }
+
+            .pdf-date {
+              font-size: 14px;
+              color: #666;
+              margin-top: 12px;
+            }
+
+            /* ========================================
+               NOTES - Usando estilo similar aos modals
+               ======================================== */
+            .pdf-notes {
+              background-color: #F8F9FA;
+              border: 1px solid #E5E7EB;
+              border-left: 4px solid #3B82F6;
+              border-radius: 8px;
+              padding: 20px;
+              margin-bottom: 30px;
+            }
+
+            .pdf-notes h3 {
+              font-size: 18px;
+              font-weight: 600;
+              color: #3B82F6;
+              margin-bottom: 12px;
+            }
+
+            .pdf-notes p {
+              margin: 0;
+              color: #374151;
+              line-height: 1.5;
+            }
+
+            /* ========================================
+               MESSAGES - USANDO AS MESMAS CLASSES DO CSS
+               ======================================== */
+            .pdf-messages h3 {
+              font-size: 22px;
+              font-weight: 600;
+              color: #1A1A1A;
+              margin-bottom: 20px;
+              padding-bottom: 10px;
+              border-bottom: 1px solid #E0E0E0;
+            }
+
+            /* CLASSES EXATAS DO CSS ORIGINAL */
+            .message-main {
+              max-width: 100%;
+              padding: 12px 18px;
+              border-radius: 20px;
+              font-size: 16px;
+              font-weight: 400;
+              line-height: 1.6;
+              word-wrap: break-word;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+              margin-bottom: 30px;
+              position: relative;
+              break-inside: avoid;
+              page-break-inside: avoid;
+              width: 100%;
+            }
+
+            .message-user-main {
+              background: linear-gradient(135deg, #3B82F6, #1D4ED8);
+              color: #FFFFFF;
+              border-bottom-right-radius: 4px;
+              align-self: flex-end;
+              margin-left: 0;
+              break-inside: avoid;
+            }
+
+            .message-ai-main {
+              background-color: #F8F9FA;
+              color: #374151;
+              border: 1px solid #E5E7EB;
+              border-bottom-left-radius: 4px;
+              align-self: flex-start;
+              margin-right: 0;
+              break-inside: avoid;
+            }
+
+            /* MARKDOWN STYLING - CLASSES EXATAS DO CSS */
+            .message-ai-main {
+              font-family: 'Inter', 'Segoe UI', sans-serif;
+              font-size: 16px;
+              line-height: 1.6;
+              color: #1e293b;
+              overflow-wrap: break-word;
+            }
+
+            .message-ai-main h1,
+            .message-ai-main h2,
+            .message-ai-main h3,
+            .message-ai-main h4,
+            .message-ai-main h5,
+            .message-ai-main h6 {
+              font-weight: 600;
+              margin: 1em 0 0.5em 0;
+              line-height: 1.3;
+              color: #0f172a;
+              break-after: avoid;
+              page-break-after: avoid;
+            }
+
+            .message-ai-main p {
+              margin: 0.75em 0;
+              color: #1e293b;
+              orphans: 2;
+              widows: 2;
+            }
+
+            .message-ai-main ul,
+            .message-ai-main ol {
+              margin: 0.75em 0 0.75em 1.5em;
+              padding: 0;
+            }
+
+            .message-ai-main li {
+              margin: 0.4em 0;
+            }
+
+            .message-ai-main strong {
+              font-weight: 600;
+            }
+
+            .message-ai-main em {
+              font-style: italic;
+            }
+
+            .message-ai-main code {
+              background-color: #f1f5f9;
+              color: #dc2626;
+              font-family: ui-monospace, monospace;
+              font-size: 0.9em;
+              padding: 0.15em 0.35em;
+              border-radius: 4px;
+              word-wrap: break-word;
+              overflow-wrap: break-word;
+              white-space: pre-wrap;
+            }
+
+            .message-ai-main pre {
+              background-color: #0d1117;
+              color: #e6edf3;
+              font-family: ui-monospace, monospace;
+              font-size: 0.85em;
+              line-height: 1.4;
+              border-radius: 8px;
+              padding: 0.8em;
+              overflow-x: visible;
+              word-wrap: break-word;
+              white-space: pre-wrap;
+              margin: 1em -10px;
+              break-inside: avoid;
+              page-break-inside: avoid;
+              max-width: calc(100% + 20px);
+              width: calc(100% + 20px);
+              box-sizing: border-box;
+              position: relative;
+            }
+
+            .message-ai-main pre code {
+              background: none;
+              color: inherit;
+              padding: 0;
+              font-size: inherit;
+              word-wrap: break-word;
+              white-space: pre-wrap;
+              overflow-wrap: break-word;
+            }
+
+            .message-ai-main blockquote {
+              border-left: 4px solid #d1d5db;
+              margin: 1em 0;
+              padding-left: 1em;
+              color: #475569;
+              font-style: italic;
+            }
+
+            .message-ai-main a {
+              color: #2563eb;
+              text-decoration: none;
+            }
+
+            .message-ai-main a:hover {
+              text-decoration: underline;
+            }
+
+            .message-ai-main table {
+              border-collapse: collapse;
+              width: 100%;
+              margin: 1em 0;
+              font-size: 0.9em;
+              break-inside: avoid;
+              page-break-inside: avoid;
+            }
+
+            .message-ai-main th,
+            .message-ai-main td {
+              border: 1px solid #e2e8f0;
+              padding: 0.6em 0.8em;
+              text-align: left;
+            }
+
+            .message-ai-main th {
+              background-color: #f8fafc;
+              font-weight: 600;
+            }
+
+            .message-ai-main hr {
+              border: none;
+              border-top: 1px solid #e2e8f0;
+              margin: 1.5em 0;
+            }
+
+            /* Header da mensagem */
+            .message-header {
+              font-weight: 600;
+              font-size: 14px;
+              margin-bottom: 8px;
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              break-after: avoid;
+              page-break-after: avoid;
+            }
+
+            .message-user-main .message-header {
+              color: rgba(255, 255, 255, 0.9);
+            }
+
+            .message-ai-main .message-header {
+              color: #374151;
+            }
+
+            /* Print optimization - MELHORADO */
+            @media print {
+              body { 
+                font-size: 12px;
+                orphans: 3;
+                widows: 3;
+              }
+              
+              .message-main { 
+                break-inside: avoid;
+                page-break-inside: avoid;
+                margin-bottom: 20px;
+              }
+              
+              .message-ai-main pre { 
+                break-inside: avoid;
+                page-break-inside: avoid;
+                font-size: 0.8em;
+                padding: 0.6em;
+                margin: 1em -15px;
+                max-width: calc(100% + 30px);
+                width: calc(100% + 30px);
+                max-height: 200px;
+                overflow: visible;
+              }
+              
+              .message-ai-main table { 
+                break-inside: avoid;
+                page-break-inside: avoid;
+              }
+              
+              .page-title-main { 
+                break-after: avoid;
+                page-break-after: avoid;
+              }
+              
+              .pdf-notes { 
+                break-inside: avoid;
+                page-break-inside: avoid;
+              }
+
+              .message-header {
+                break-after: avoid;
+                page-break-after: avoid;
+              }
+
+              p {
+                orphans: 2;
+                widows: 2;
+              }
+
+              .message-ai-main h1,
+              .message-ai-main h2,
+              .message-ai-main h3 {
+                break-after: avoid;
+                page-break-after: avoid;
+              }
+            }
+
+            /* Container para as mensagens */
+            .pdf-container {
+              max-width: 100%;
+              margin: 0;
+              padding: 0;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="pdf-container">
+            <div class="pdf-header">
+              <h1 class="page-title-main">${doc.title}</h1>
+              <div class="pdf-date">
+                Criado em ${new Date(doc.createdAt).toLocaleDateString('pt-BR', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}
               </div>
             </div>
-          `).join('')}
-        </div>
-      </div>
-    </body>
-    </html>
-  `;
 
-  // Criar iframe invisível
-  const iframe = document.createElement('iframe');
-  iframe.style.display = 'none';
-  document.body.appendChild(iframe);
+            ${doc.notes ? `
+              <div class="pdf-notes">
+                <h3>Observações</h3>
+                <p>${doc.notes}</p>
+              </div>
+            ` : ''}
 
-  const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-  iframeDoc.open();
-  iframeDoc.write(pdfContent);
-  iframeDoc.close();
+            <div class="pdf-messages">
+              <h3>Conversação</h3>
+              ${doc.messages.map((msg, index) => `
+                <div class="message-main ${msg.sender === 'user' ? 'message-user-main' : 'message-ai-main'}">
+                  <div class="message-header">
+                    ${msg.sender === 'user' ? '👤 Você' : '🤖 IA'} - Mensagem ${index + 1}
+                  </div>
+                  <div class="message-content">
+                    ${msg.html || msg.content}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </body>
+        </html>
+      `;
 
-  iframe.onload = () => {
-    // Aplicar highlight.js se disponível
-    if (typeof hljs !== 'undefined') {
-      try {
-        const codeBlocks = iframeDoc.querySelectorAll('pre code');
-        codeBlocks.forEach(block => {
-          hljs.highlightElement(block);
-        });
-      } catch (error) {
-        console.warn('Erro ao aplicar highlight no PDF:', error);
-      }
-    }
+      // Criar iframe invisível
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
 
-    // Aguardar renderização e gerar PDF
-    setTimeout(() => {
-      const options = {
-        margin: [10, 10, 10, 10],
-        filename: `${doc.title.replace(/[^a-z0-9\s]/gi, '_').toLowerCase()}.pdf`,
-        image: { 
-          type: 'jpeg', 
-          quality: 0.98 
-        },
-        html2canvas: { 
-          scale: 1.8,
-          useCORS: true,
-          allowTaint: false,
-          letterRendering: true,
-          logging: false,
-          windowWidth: 1400,
-          windowHeight: 800,
-          scrollX: 0,
-          scrollY: 0
-        },
-        jsPDF: { 
-          unit: 'mm', 
-          format: 'a4', 
-          orientation: 'portrait',
-          compress: true,
-          putOnlyUsedFonts: true
-        },
-        pagebreak: { 
-          mode: ['avoid-all', 'css', 'legacy']
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+      iframeDoc.open();
+      iframeDoc.write(pdfContent);
+      iframeDoc.close();
+
+      iframe.onload = () => {
+        // Aplicar highlight.js se disponível
+        if (typeof hljs !== 'undefined') {
+          try {
+            const codeBlocks = iframeDoc.querySelectorAll('pre code');
+            codeBlocks.forEach(block => {
+              hljs.highlightElement(block);
+            });
+          } catch (error) {
+            console.warn('Erro ao aplicar highlight no PDF:', error);
+          }
         }
+
+        // Aguardar renderização e gerar PDF
+        setTimeout(() => {
+          const options = {
+            margin: [10, 10, 10, 10],
+            filename: `${doc.title.replace(/[^a-z0-9\s]/gi, '_').toLowerCase()}.pdf`,
+            image: { 
+              type: 'jpeg', 
+              quality: 0.98 
+            },
+            html2canvas: { 
+              scale: 1.8,
+              useCORS: true,
+              allowTaint: false,
+              letterRendering: true,
+              logging: false,
+              windowWidth: 1400,
+              windowHeight: 800,
+              scrollX: 0,
+              scrollY: 0
+            },
+            jsPDF: { 
+              unit: 'mm', 
+              format: 'a4', 
+              orientation: 'portrait',
+              compress: true,
+              putOnlyUsedFonts: true
+            },
+            pagebreak: { 
+              mode: ['avoid-all', 'css', 'legacy']
+            }
+          };
+
+          html2pdf()
+            .set(options)
+            .from(iframeDoc.body)
+            .save()
+            .then(() => {
+              Utils.showPopup('PDF baixado com sucesso!');
+              document.body.removeChild(iframe);
+            })
+            .catch((error) => {
+              Utils.handleError('gerar PDF', error);
+              document.body.removeChild(iframe);
+            });
+        }, 1000);
       };
 
-      html2pdf()
-        .set(options)
-        .from(iframeDoc.body)
-        .save()
-        .then(() => {
-          Utils.showPopup('PDF baixado com sucesso!');
-          document.body.removeChild(iframe);
-        })
-        .catch((error) => {
-          Utils.handleError('gerar PDF', error);
-          document.body.removeChild(iframe);
-        });
-    }, 1000);
+      // Fallback caso iframe não carregue
+      setTimeout(() => {
+        if (document.body.contains(iframe)) {
+          Utils.showPopup('Gerando PDF (modo fallback)...');
+          const fallbackOptions = {
+            margin: 15,
+            filename: `${doc.title.replace(/[^a-z0-9\s]/gi, '_').toLowerCase()}.pdf`,
+            html2canvas: { scale: 1.5, useCORS: true },
+            jsPDF: { format: 'a4', orientation: 'portrait' }
+          };
+
+          html2pdf()
+            .set(fallbackOptions)
+            .from(iframeDoc.body)
+            .save()
+            .then(() => {
+              Utils.showPopup('PDF baixado com sucesso!');
+              document.body.removeChild(iframe);
+            })
+            .catch((error) => {
+              Utils.handleError('gerar PDF', error);
+              document.body.removeChild(iframe);
+            });
+        }
+      }, 4000);
+    }
   };
-
-  // Fallback caso iframe não carregue
-  setTimeout(() => {
-    if (document.body.contains(iframe)) {
-      Utils.showPopup('Gerando PDF (modo fallback)...');
-      const fallbackOptions = {
-        margin: 15,
-        filename: `${doc.title.replace(/[^a-z0-9\s]/gi, '_').toLowerCase()}.pdf`,
-        html2canvas: { scale: 1.5, useCORS: true },
-        jsPDF: { format: 'a4', orientation: 'portrait' }
-      };
-
-      html2pdf()
-        .set(fallbackOptions)
-        .from(iframeDoc.body)
-        .save()
-        .then(() => {
-          Utils.showPopup('PDF baixado com sucesso!');
-          document.body.removeChild(iframe);
-        })
-        .catch((error) => {
-          Utils.handleError('gerar PDF', error);
-          document.body.removeChild(iframe);
-        });
-    }
-  }, 4000);
-},
-};
 
   // ========================================
   // SISTEMA DE COMPARTILHAMENTO
@@ -1557,7 +1555,7 @@ downloadDocumentAsPDF(doc) {
         };
 
         try {
-          const response = await fetch('http://localhost:5001/api/documents', {
+          const response = await fetch('/api/documents', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -1595,181 +1593,181 @@ downloadDocumentAsPDF(doc) {
   // SISTEMA DE APRIMORAMENTO
   // ========================================
   const EnhanceSystem = {
-  init(prochat) {
-    this.prochat = prochat;
-    return this;
-  },
+    init(prochat) {
+      this.prochat = prochat;
+      return this;
+    },
 
-  // Manipular clique no botão de aprimoramento
-  handleClick() {
-    const currentText = this.prochat.elements['chat-input'].value.trim();
-    const wordCount = currentText.split(' ').length;
+    // Manipular clique no botão de aprimoramento
+    handleClick() {
+      const currentText = this.prochat.elements['chat-input'].value.trim();
+      const wordCount = currentText.split(' ').length;
 
-    if (wordCount < 6) {
-      Utils.showPopup('O prompt deve ter pelo menos 6 palavras para ser aprimorado.');
-      return;
-    }
-
-    this.enhancePrompt(currentText);
-  },
-
-  // ✅ ATUALIZADA: Aprimorar prompt com rastreamento Mixpanel
-  async enhancePrompt(originalPrompt) {
-    const token = this.prochat.systems.utils.checkAuth();
-    if (!token) return;
-
-    console.log('Iniciando aprimoramento de prompt...'); // Log de debug
-
-    const modal = this.createModal();
-    const textarea = modal.querySelector('#enhance-textarea');
-    textarea.value = 'Carregando aprimoramento...';
-    modal.style.display = 'block';
-
-    // ✅ CORREÇÃO: Usar a função correta para obter userId
-    const userId = this.prochat.systems.utils.getUserIdFromToken();
-
-    // Rastrear tentativa de aprimoramento
-    if (window.mixpanelClient) {
-      console.log('Rastreando tentativa de aprimoramento:', userId); // Log de debug
-      window.mixpanelClient.track('Prompt Enhancement Attempted', {
-        distinct_id: userId || 'anonymous',
-        originalPromptLength: originalPrompt.length,
-        timestamp: new Date().toISOString(),
-        wordCount: originalPrompt.split(' ').length
-      });
-    } else {
-      console.warn('Mixpanel não inicializado'); // Log de debug
-    }
-
-    try {
-      const instruction = `Você é um especialista em inteligência artificial com mais de 10 anos de experiência na criação de prompts eficazes. Sua função é reescrever o prompt original enviado pelo usuário, tornando-o mais claro, completo e direto, sem alterar sua intenção principal. O resultado deve ser um texto fluido e bem estruturado, redigido em primeira pessoa, como se fosse o próprio usuário falando diretamente com a IA. Comece com e não use títulos e asteriscos. Não execute a tarefa solicitada no prompt. Sua única responsabilidade é aprimorar o texto do prompt. Prompt original: "${originalPrompt}"`;
-
-      const response = await fetch('http://localhost:5001/api/chat/ai', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          text: instruction,
-          model: 'deepseek-chat',
-          max_tokens: 400
-        })
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        textarea.value = data.response;
-        console.log('Aprimoramento bem-sucedido'); // Log de debug
-
-        // ✅ CORREÇÃO: Rastrear sucesso do aprimoramento
-        if (window.mixpanelClient) {
-          console.log('Rastreando sucesso do aprimoramento:', userId); // Log de debug
-          window.mixpanelClient.track('Prompt Enhanced Successfully', {
-            distinct_id: userId || 'anonymous',
-            originalPromptLength: originalPrompt.length,
-            enhancedPromptLength: data.response.length,
-            modelUsed: 'deepseek-chat',
-            timestamp: new Date().toISOString(),
-            improvementRatio: (data.response.length / originalPrompt.length).toFixed(2)
-          });
-        }
-      } else {
-        textarea.value = 'Erro ao aprimorar prompt: ' + data.message;
-        console.error('Erro na resposta:', data.message); // Log de debug
-
-        // ✅ CORREÇÃO: Rastrear erro no aprimoramento
-        if (window.mixpanelClient) {
-          window.mixpanelClient.track('Prompt Enhancement Failed', {
-            distinct_id: userId || 'anonymous',
-            error: data.message,
-            originalPromptLength: originalPrompt.length,
-            timestamp: new Date().toISOString(),
-            errorType: 'API_ERROR'
-          });
-        }
+      if (wordCount < 6) {
+        Utils.showPopup('O prompt deve ter pelo menos 6 palavras para ser aprimorado.');
+        return;
       }
-    } catch (error) {
-      textarea.value = 'Erro de conexão: ' + error.message;
-      console.error('Erro de conexão:', error.message); // Log de debug
 
-      // ✅ CORREÇÃO: Rastrear erro de conexão
+      this.enhancePrompt(currentText);
+    },
+
+    // ✅ ATUALIZADA: Aprimorar prompt com rastreamento Mixpanel
+    async enhancePrompt(originalPrompt) {
+      const token = this.prochat.systems.utils.checkAuth();
+      if (!token) return;
+
+      console.log('Iniciando aprimoramento de prompt...'); // Log de debug
+
+      const modal = this.createModal();
+      const textarea = modal.querySelector('#enhance-textarea');
+      textarea.value = 'Carregando aprimoramento...';
+      modal.style.display = 'block';
+
+      // ✅ CORREÇÃO: Usar a função correta para obter userId
+      const userId = this.prochat.systems.utils.getUserIdFromToken();
+
+      // Rastrear tentativa de aprimoramento
       if (window.mixpanelClient) {
-        window.mixpanelClient.track('Prompt Enhancement Error', {
+        console.log('Rastreando tentativa de aprimoramento:', userId); // Log de debug
+        window.mixpanelClient.track('Prompt Enhancement Attempted', {
           distinct_id: userId || 'anonymous',
-          error: error.message,
           originalPromptLength: originalPrompt.length,
           timestamp: new Date().toISOString(),
-          errorType: 'CONNECTION_ERROR'
+          wordCount: originalPrompt.split(' ').length
         });
+      } else {
+        console.warn('Mixpanel não inicializado'); // Log de debug
       }
-    }
-  },
 
-  // ✅ ATUALIZADA: Criar modal com rastreamento adicional
-  createModal() {
-    const modal = document.createElement('div');
-    modal.id = 'enhance-modal';
-    modal.className = 'enhance-modal';
-    modal.innerHTML = `
-      <div class="enhance-modal-content">
-        <span class="enhance-close">&times;</span>
-        <h2>Melhorar Prompt</h2>
-        <textarea id="enhance-textarea" placeholder="Edite o prompt aprimorado aqui..."></textarea>
-        <div class="enhance-buttons">
-          <button id="enhance-cancel-btn">Cancelar</button>
-          <button id="enhance-send-btn">Enviar Prompt</button>
-        </div>
-      </div>
-    `;
+      try {
+        const instruction = `Você é um especialista em inteligência artificial com mais de 10 anos de experiência na criação de prompts eficazes. Sua função é reescrever o prompt original enviado pelo usuário, tornando-o mais claro, completo e direto, sem alterar sua intenção principal. O resultado deve ser um texto fluido e bem estruturado, redigido em primeira pessoa, como se fosse o próprio usuário falando diretamente com a IA. Comece com e não use títulos e asteriscos. Não execute a tarefa solicitada no prompt. Sua única responsabilidade é aprimorar o texto do prompt. Prompt original: "${originalPrompt}"`;
 
-    document.body.appendChild(modal);
-
-    const closeModal = () => {
-      modal.style.display = 'none';
-      
-      // ✅ ADICIONADO: Rastrear cancelamento do modal
-      if (window.mixpanelClient) {
-        const userId = this.prochat.systems.utils.getUserIdFromToken();
-        window.mixpanelClient.track('Prompt Enhancement Modal Closed', {
-          distinct_id: userId || 'anonymous',
-          timestamp: new Date().toISOString(),
-          action: 'modal_closed'
+        const response = await fetch('/api/chat/ai', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            text: instruction,
+            model: 'deepseek-chat',
+            max_tokens: 400
+          })
         });
-      }
-    };
 
-    modal.querySelector('.enhance-close').addEventListener('click', closeModal);
-    modal.querySelector('#enhance-cancel-btn').addEventListener('click', closeModal);
-    window.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
-    });
+        const data = await response.json();
+        if (response.ok) {
+          textarea.value = data.response;
+          console.log('Aprimoramento bem-sucedido'); // Log de debug
 
-    modal.querySelector('#enhance-send-btn').addEventListener('click', () => {
-      const enhancedText = modal.querySelector('#enhance-textarea').value.trim();
-      if (enhancedText) {
-        // ✅ ADICIONADO: Rastrear uso do prompt aprimorado
+          // ✅ CORREÇÃO: Rastrear sucesso do aprimoramento
+          if (window.mixpanelClient) {
+            console.log('Rastreando sucesso do aprimoramento:', userId); // Log de debug
+            window.mixpanelClient.track('Prompt Enhanced Successfully', {
+              distinct_id: userId || 'anonymous',
+              originalPromptLength: originalPrompt.length,
+              enhancedPromptLength: data.response.length,
+              modelUsed: 'deepseek-chat',
+              timestamp: new Date().toISOString(),
+              improvementRatio: (data.response.length / originalPrompt.length).toFixed(2)
+            });
+          }
+        } else {
+          textarea.value = 'Erro ao aprimorar prompt: ' + data.message;
+          console.error('Erro na resposta:', data.message); // Log de debug
+
+          // ✅ CORREÇÃO: Rastrear erro no aprimoramento
+          if (window.mixpanelClient) {
+            window.mixpanelClient.track('Prompt Enhancement Failed', {
+              distinct_id: userId || 'anonymous',
+              error: data.message,
+              originalPromptLength: originalPrompt.length,
+              timestamp: new Date().toISOString(),
+              errorType: 'API_ERROR'
+            });
+          }
+        }
+      } catch (error) {
+        textarea.value = 'Erro de conexão: ' + error.message;
+        console.error('Erro de conexão:', error.message); // Log de debug
+
+        // ✅ CORREÇÃO: Rastrear erro de conexão
         if (window.mixpanelClient) {
-          const userId = this.prochat.systems.utils.getUserIdFromToken();
-          window.mixpanelClient.track('Enhanced Prompt Used', {
+          window.mixpanelClient.track('Prompt Enhancement Error', {
             distinct_id: userId || 'anonymous',
-            enhancedPromptLength: enhancedText.length,
+            error: error.message,
+            originalPromptLength: originalPrompt.length,
             timestamp: new Date().toISOString(),
-            action: 'prompt_sent'
+            errorType: 'CONNECTION_ERROR'
           });
         }
-
-        this.prochat.elements['chat-input'].value = enhancedText;
-        modal.style.display = 'none';
-        this.prochat.systems.chat.sendMessage();
-      } else {
-        this.prochat.systems.utils.showPopup('O prompt não pode estar vazio.');
       }
-    });
+    },
 
-    return modal;
-  }
-};
+    // ✅ ATUALIZADA: Criar modal com rastreamento adicional
+    createModal() {
+      const modal = document.createElement('div');
+      modal.id = 'enhance-modal';
+      modal.className = 'enhance-modal';
+      modal.innerHTML = `
+        <div class="enhance-modal-content">
+          <span class="enhance-close">&times;</span>
+          <h2>Melhorar Prompt</h2>
+          <textarea id="enhance-textarea" placeholder="Edite o prompt aprimorado aqui..."></textarea>
+          <div class="enhance-buttons">
+            <button id="enhance-cancel-btn">Cancelar</button>
+            <button id="enhance-send-btn">Enviar Prompt</button>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(modal);
+
+      const closeModal = () => {
+        modal.style.display = 'none';
+        
+        // ✅ ADICIONADO: Rastrear cancelamento do modal
+        if (window.mixpanelClient) {
+          const userId = this.prochat.systems.utils.getUserIdFromToken();
+          window.mixpanelClient.track('Prompt Enhancement Modal Closed', {
+            distinct_id: userId || 'anonymous',
+            timestamp: new Date().toISOString(),
+            action: 'modal_closed'
+          });
+        }
+      };
+
+      modal.querySelector('.enhance-close').addEventListener('click', closeModal);
+      modal.querySelector('#enhance-cancel-btn').addEventListener('click', closeModal);
+      window.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+
+      modal.querySelector('#enhance-send-btn').addEventListener('click', () => {
+        const enhancedText = modal.querySelector('#enhance-textarea').value.trim();
+        if (enhancedText) {
+          // ✅ ADICIONADO: Rastrear uso do prompt aprimorado
+          if (window.mixpanelClient) {
+            const userId = this.prochat.systems.utils.getUserIdFromToken();
+            window.mixpanelClient.track('Enhanced Prompt Used', {
+              distinct_id: userId || 'anonymous',
+              enhancedPromptLength: enhancedText.length,
+              timestamp: new Date().toISOString(),
+              action: 'prompt_sent'
+            });
+          }
+
+          this.prochat.elements['chat-input'].value = enhancedText;
+          modal.style.display = 'none';
+          this.prochat.systems.chat.sendMessage();
+        } else {
+          this.prochat.systems.utils.showPopup('O prompt não pode estar vazio.');
+        }
+      });
+
+      return modal;
+    }
+  };
 
   // ========================================
   // SISTEMA DE MODELOS
@@ -1832,32 +1830,32 @@ downloadDocumentAsPDF(doc) {
 
     // Mostrar popup da IA
     showAIPopup(model) {
-  const popup = document.getElementById('ai-popup');
-  const popupText = document.getElementById('ai-popup-text');
-  const closeBtn = document.getElementById('ai-popup-close'); // Novo botão de fechar
+      const popup = document.getElementById('ai-popup');
+      const popupText = document.getElementById('ai-popup-text');
+      const closeBtn = document.getElementById('ai-popup-close'); // Novo botão de fechar
 
-  if (popup && popupText) {
-    popupText.textContent = this.getModelDisplayName(model);
-    popup.style.display = 'block';
+      if (popup && popupText) {
+        popupText.textContent = this.getModelDisplayName(model);
+        popup.style.display = 'block';
 
-    // Remover timeout automático
-    // setTimeout(() => popup.style.display = 'none', 2000); // REMOVIDO
+        // Remover timeout automático
+        // setTimeout(() => popup.style.display = 'none', 2000); // REMOVIDO
 
-    // Adicionar event listener para fechar
-    if (closeBtn) {
-      closeBtn.onclick = () => {
-        popup.style.display = 'none';
-      };
-    }
+        // Adicionar event listener para fechar
+        if (closeBtn) {
+          closeBtn.onclick = () => {
+            popup.style.display = 'none';
+          };
+        }
 
-    // Opcional: Fechar ao clicar fora do popup
-    popup.onclick = (e) => {
-      if (e.target === popup) {
-        popup.style.display = 'none';
+        // Opcional: Fechar ao clicar fora do popup
+        popup.onclick = (e) => {
+          if (e.target === popup) {
+            popup.style.display = 'none';
+          }
+        };
       }
-    };
-  }
-}
+    }
 
   };
 

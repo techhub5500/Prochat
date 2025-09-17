@@ -15,7 +15,16 @@ const PORT = process.env.PORT || 5000; // Já usa a porta do .env (3000)
 const mixpanel = Mixpanel.init(process.env.MIXPANEL_TOKEN);
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:3001',
+    'http://127.0.0.1:3001',
+    'http://localhost:5500',
+    'http://127.0.0.1:5500',
+    // Adicionar URL do Render, ex: 'https://your-app.onrender.com'
+  ],
+  credentials: true
+}));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -30,7 +39,6 @@ const VALID_ORGANIZATION_CODES = Object.keys(process.env)
   .map(key => process.env[key]); // Pegar os valores, não as chaves
 
 console.log('Códigos de organização válidos carregados (valores):', VALID_ORGANIZATION_CODES);
-
 
 // Schema do Usuário - ATUALIZADO com organizationCode OPCIONAL e campos para perfil
 const userSchema = new mongoose.Schema({
@@ -57,7 +65,6 @@ const eventSchema = new mongoose.Schema({
 });
 
 const Event = mongoose.model('Event', eventSchema);
-
 
 // Rota de Cadastro - ATUALIZADA para isolamento gradual
 app.post('/api/signup', async (req, res) => {
@@ -99,7 +106,7 @@ app.post('/api/signup', async (req, res) => {
       timestamp: new Date().toISOString()
     });
 
-        // NOVO: Armazenar evento no MongoDB
+    // NOVO: Armazenar evento no MongoDB
     const eventData = {
       distinct_id: newUser._id.toString(),
       username: newUser.username,
@@ -158,7 +165,7 @@ app.post('/api/login', async (req, res) => {
       return res.status(400).json({ message: 'Credenciais inválidas' });
     }
 
-// Verificar senha
+    // Verificar senha
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return res.status(400).json({ message: 'Credenciais inválidas' });
@@ -173,7 +180,7 @@ app.post('/api/login', async (req, res) => {
       timestamp: new Date().toISOString()
     });
 
-       // NOVO: Armazenar evento no MongoDB
+    // NOVO: Armazenar evento no MongoDB
     const eventData = {
       distinct_id: user._id.toString(),
       username: user.username,
@@ -206,7 +213,7 @@ app.post('/api/login', async (req, res) => {
     console.log(`Usuário logado com sucesso: ${user.username} (${user.email}) (Org: ${user.organizationCode || 'Nenhuma'})`);
 
     // Gerar token JWT - INCLUINDO organizationCode
-   const token = jwt.sign({ 
+    const token = jwt.sign({ 
       id: user._id, 
       username: user.username, 
       email: user.email,
@@ -286,12 +293,6 @@ const authenticateToken = (req, res, next) => {
 // Exemplo de rota protegida (futuro)
 app.get('/api/protected', authenticateToken, (req, res) => {
   res.json({ message: 'Acesso autorizado', user: req.user });
-});
-
-// Iniciar servidor
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
-  console.log(`🏢 Isolamento por organização: ATIVADO (gradual)`);
 });
 
 // Iniciar servidor

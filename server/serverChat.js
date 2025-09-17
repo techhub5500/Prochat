@@ -45,7 +45,12 @@ const logger = winston.createLogger({
   ]
 });
 
-const mixpanelClient = mixpanel.init('0f9344739b91e073e43c7215d9cad87f'); // Token direto no código
+// Verificações de variáveis de ambiente
+if (!process.env.MONGO_URI) {
+  throw new Error('MONGO_URI não definida');
+}
+if (!process.env.JWT_SECRET) logger.warn('JWT_SECRET não definida, usando padrão');
+if (!process.env.MIXPANEL_TOKEN) logger.warn('MIXPANEL_TOKEN não definida');
 
 // Conectar ao MongoDB
 mongoose.connect(process.env.MONGO_URI)
@@ -111,9 +116,12 @@ documentSchema.index({ documentId: 1 }, { unique: true }); // ID único
 const Document = mongoose.model('Document', documentSchema);
 
 // Instâncias das APIs
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const openai = process.env.OPENAI_API_KEY ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY }) : null;
+const anthropic = process.env.ANTHROPIC_API_KEY ? new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY }) : null;
+const genAI = process.env.GEMINI_API_KEY ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY) : null;
+
+// Mixpanel client
+const mixpanelClient = mixpanel.init(process.env.MIXPANEL_TOKEN);
 
 // Middleware de autenticação
 const authenticate = (req, res, next) => {
@@ -277,6 +285,11 @@ const callAI = async (model, message, context = '', maxTokens = null) => {
   let tokenUsage = null; // Inicializar para capturar uso
   
   try {
+    // Verificações de API configurada
+    if (model === 'gpt-4o-mini' && !openai) throw new Error('OpenAI API não configurada');
+    if (model === 'claude-sonnet-4-20250514' && !anthropic) throw new Error('Anthropic API não configurada');
+    if (model === 'gemini-1.5-pro' && !genAI) throw new Error('Gemini API não configurada');
+
     const decision = await askModelForSearchDecision(sanitizedMessage, model);
     
     if (decision.needsSearch) {
@@ -506,8 +519,8 @@ app.get('/dashboard', (req, res) => {
     const htmlPath = path.join(__dirname, '../client/html/dashboard.html');
     let html = fs.readFileSync(htmlPath, 'utf8');
     
-    // Substituir pelo token direto
-    html = html.replace(/\{\{MIXPANEL_TOKEN\}\}/g, '0f9344739b91e073e43c7215d9cad87f');
+    // Substituir pelo token do env
+    html = html.replace(/\{\{MIXPANEL_TOKEN\}\}/g, process.env.MIXPANEL_TOKEN);
     
     console.log('HTML injetado enviado para dashboard'); // Log para debug
     res.send(html);
@@ -747,5 +760,5 @@ app.delete('/api/documents/:documentId', authenticate, async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT_CHAT || 5001;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => logger.info(`Servidor de chat rodando na porta ${PORT}`));

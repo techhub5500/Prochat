@@ -1865,16 +1865,21 @@ document.addEventListener('DOMContentLoaded', () => {
 // ========================================
 const TutorialSystem = {
   init() {
+  console.log('TutorialSystem: Iniciando...');
+  setTimeout(() => {
+    const modal = document.getElementById('tutorial-modal');
+    console.log('Modal encontrado após timeout:', modal);
+    if (!modal) {
+      console.error('Erro: Modal do tutorial não encontrado no DOM!');
+      return;
+    }
     this.currentImageIndex = 0;
     this.images = Array.from({ length: 10 }, (_, i) => `../image/tutorial${i + 1}.jpg`);
     this.accessCount = parseInt(localStorage.getItem('tutorialAccessCount') || 0);
     this.checkAndShowTutorial();
     this.setupEventListeners();
-      console.log('TutorialSystem: Iniciando...');
-    const modal = document.getElementById('tutorial-modal');
-    console.log('Modal encontrado:', modal);  // Deve mostrar o elemento, não null
- 
-  },
+  }, 100);  // Atraso de 100ms
+},
 
   checkAndShowTutorial() {
     if (this.accessCount < 4) {

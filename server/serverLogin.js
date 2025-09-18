@@ -300,6 +300,6 @@ app.get('/api/protected', authenticateToken, (req, res) => {
 
 // Iniciar servidor
 app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+  console.log(`Servidor rodando naa porta ${PORT}`);
   console.log(`🏢 Isolamento por organização: ATIVADO (gradual.)`);
 });

@@ -189,6 +189,13 @@ function getUserDataFromToken() {
 document.addEventListener('DOMContentLoaded', function() {
   console.log('DOM carregado, inicializando sharing...');
   
+  // ✅ ADICIONADO: Verificar se estamos na página do dashboard (evita erro em login.html)
+  const isDashboardPage = document.getElementById('page-sharing') !== null;
+  if (!isDashboardPage) {
+    console.log('Sharing: Página de login detectada, pulando inicialização.');
+    return; // Não inicializar se não for o dashboard
+  }
+
   showSharingPage();
   
   const userData = getUserDataFromToken();

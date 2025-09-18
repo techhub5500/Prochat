@@ -298,24 +298,6 @@ app.get('/api/protected', authenticateToken, (req, res) => {
   res.json({ message: 'Acesso autorizado', user: req.user });
 });
 
-app.get('/api/profile', authenticateToken, async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id).select('username name lastLogin');
-    if (!user) {
-      return res.status(404).json({ message: 'Usuário não encontrado' });
-    }
-    res.json({
-      username: user.username,
-      name: user.name,
-      lastLogin: user.lastLogin ? new Date(user.lastLogin).toLocaleString('pt-BR') : 'Nunca'
-    });
-  } catch (error) {
-    res.status(500).json({ message: 'Erro no servidor', error: error.message });
-  }
-});
-
-
-
 // Iniciar servidor
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);

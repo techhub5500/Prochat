@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProChat - Redirecionamento</title>
+</head>
+<body>
+    <script>
+        // Verifica o token e redireciona
+        const token = localStorage.getItem('token');
+        if (token) {
+            window.location.href = 'dashboard.html';  // Ajuste o caminho se necessário
+        } else {
+            window.location.href = 'login.html';     // Ajuste o caminho se necessário
+        }
+    </script>
+</body>
+</html>

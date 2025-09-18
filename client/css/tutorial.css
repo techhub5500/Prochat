@@ -1,0 +1,148 @@
+/* ========================================
+   TUTORIAL MODAL - Estilos Minimalistas e Elegantes
+   ======================================== */
+.tutorial-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.tutorial-modal-content {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  max-width: 800px;
+  width: 90%;
+  max-height: 90vh;
+  overflow: hidden;
+  position: relative;
+  animation: slideIn 0.3s ease-out;
+}
+
+.tutorial-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  border-bottom: 1px solid #e5e7eb;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: #ffffff;
+}
+
+.tutorial-modal-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+}
+
+.tutorial-close-btn {
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.tutorial-close-btn:hover {
+  color: #e5e7eb;
+}
+
+.tutorial-modal-body {
+  padding: 30px;
+  text-align: center;
+}
+
+.tutorial-image {
+  max-width: 100%;
+  max-height: 400px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.tutorial-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.tutorial-nav-btn {
+  background: #3b82f6;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.tutorial-nav-btn:hover:not(:disabled) {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.tutorial-nav-btn:disabled {
+  background: #d1d5db;
+  cursor: not-allowed;
+}
+
+.tutorial-counter {
+  font-size: 16px;
+  font-weight: 500;
+  color: #374151;
+  flex: 1;
+  text-align: center;
+}
+
+/* Animações */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .tutorial-modal-content {
+    width: 95%;
+    margin: 20px;
+  }
+  
+  .tutorial-modal-header {
+    padding: 15px 20px;
+  }
+  
+  .tutorial-modal-body {
+    padding: 20px;
+  }
+  
+  .tutorial-image {
+    max-height: 300px;
+  }
+  
+  .tutorial-navigation {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .tutorial-counter {
+    order: -1;
+  }
+}

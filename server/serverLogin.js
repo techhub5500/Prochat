@@ -22,18 +22,12 @@ app.use(cors({
     'http://localhost:5500',
     'http://127.0.0.1:5500',
     'https://prochat-frontend.onrender.com/login.html',
-    'https://prochatt.com.br/dashboard.html',
-    'https://prochatt.com.br/login.html',
     // Adicionar URLs do Render
     'https://prochat-frontend.onrender.com',  // URL do seu site estático
-    'https://prochat-login.onrender.com',      // Para consistência
-    // NOVO: Adicionar novo domínio para prochatt.com.br
-    'https://prochatt.com.br',                 // Domínio principal
-    'https://login.prochatt.com.br'            // Subdomínio para login (adicione se configurado)
+    'https://prochat-login.onrender.com'      // Para consistência
   ],
   credentials: true
 }));
-
 app.use(express.json());
 app.use(cookieParser());
 

@@ -14,7 +14,7 @@ let allUsers = [];
 async function loadChatHistory(recipientId) {
   try {
     const token = localStorage.getItem('token');
-    const response = await fetch(`https://prochatt.com.br/api/messages/${recipientId}`, {  // Atualizado para novo domínio
+    const response = await fetch(`https://prochat-sharing.onrender.com/api/messages/${recipientId}`, {  // Substituído: removido localhost
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -67,7 +67,7 @@ async function loadChatHistory(recipientId) {
 async function fetchAllUsers() {
   try {
     const token = localStorage.getItem('token');
-    const response = await fetch('https://prochatt.com.br/api/users', {  // Atualizado para novo domínio
+    const response = await fetch('https://prochat-sharing.onrender.com/api/users', {  // Substituído: removido localhost
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -189,13 +189,6 @@ function getUserDataFromToken() {
 document.addEventListener('DOMContentLoaded', function() {
   console.log('DOM carregado, inicializando sharing...');
   
-  // ✅ ADICIONADO: Verificar se estamos na página do dashboard (evita erro em login.html)
-  const isDashboardPage = document.getElementById('page-sharing') !== null;
-  if (!isDashboardPage) {
-    console.log('Sharing: Página de login detectada, pulando inicialização.');
-    return; // Não inicializar se não for o dashboard
-  }
-
   showSharingPage();
   
   const userData = getUserDataFromToken();
@@ -320,7 +313,7 @@ function initializeSharing() {
 
   console.log('Inicializando sharing para usuário:', currentUser.username, 'Organização:', currentOrganization);
 
-  socket = io('https://prochatt.com.br', {  // Atualizado para novo domínio
+  socket = io('https://prochat-sharing.onrender.com', {  // Substituído: removido localhost para conexão relativa
     auth: {
       token: localStorage.getItem('token'),
       userId: currentUser.id,
@@ -636,7 +629,7 @@ function addFileToChat(fileData, type, senderName, timestamp) {
           <span class="file-name">${escapeHtml(fileData.originalName)}</span>
           <span class="file-size">${formatFileSize(fileData.size)}</span>
         </div>
-        <a href="https://prochatt.com.br/uploads/${fileData.filename}" target="_blank" class="download-btn" title="Baixar arquivo">  <!-- Atualizado para novo domínio -->
+        <a href="https://prochat-sharing.onrender.com/uploads/${fileData.filename}" target="_blank" class="download-btn" title="Baixar arquivo">  <!-- Substituído: removido localhost -->
           <i class="fas fa-download"></i>
         </a>
       </div>
@@ -699,7 +692,7 @@ function uploadFile(formData, file) {
   }, 'sent', currentUser.username, new Date());
   
   // ERRO AQUI: ffetch em vez de fetch
-  fetch('https://prochatt.com.br/upload', {  // Atualizado para novo domínio
+  fetch('https://prochat-sharing.onrender.com/upload', {  // Corrigido: ffetch → fetch
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${token}`
@@ -743,8 +736,8 @@ function showOfflineMode() {
     `;
     
     document.getElementById('login-btn').addEventListener('click', () => {
-    window.location.href = 'https://prochatt.com.br/login.html';  // Atualizado para novo domínio
-  });
+      window.location.href = 'https://prochat-login.onrender.com/login.html';
+    });
   }
   
   updateOnlineUsersList();

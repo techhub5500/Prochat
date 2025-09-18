@@ -1,9 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const isDashboardPage = document.getElementById('new-chat-btn') !== null;
-  if (!isDashboardPage) {
-    console.log('ProChat: Página de login detectada, pulando inicialização.');
-    return; // Não inicializar se não for o dashboard
-  }
   // ========================================
   // SISTEMA PRINCIPAL - PROCHAT
   // ========================================
@@ -202,14 +197,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Carregar histórico
     async loadHistory() {
-    const token = Utils.checkAuth();
-    if (!token) return;
+      const token = Utils.checkAuth();
+      if (!token) return;
 
-    try {
-      const response = await fetch('https://prochatt.com.br/api/chat/history', {  // Atualizado para novo domínio
-        method: 'GET',
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      try {
+        const response = await fetch('https://prochat-chat.onrender.com/api/chat/history', {
+      method: 'GET',
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
 
         const data = await response.json();
         if (response.ok) {
@@ -301,10 +296,10 @@ document.addEventListener('DOMContentLoaded', () => {
       confirmBtn.addEventListener('click', async () => {
         closeModal();
         try {
-      const response = await fetch(`https://prochatt.com.br/api/chat/${chatId}`, {  // Atualizado para novo domínio
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+          const response = await fetch(`https://prochat-chat.onrender.com/api/chat/${chatId}`, {
+  method: 'DELETE',
+  headers: { 'Authorization': `Bearer ${token}` }
+});
 
           if (response.ok) {
             Utils.showPopup('Chat deletado com sucesso!');
@@ -427,18 +422,18 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!token) return 'Erro: Usuário não autenticado';
 
       try {
-      const response = await fetch('https://prochatt.com.br/api/chat/ai', {  // Atualizado para novo domínio
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          text: message,
-          model: model,
-          chatId: this.prochat.state.currentChatId
-        })
-      });
+        const response = await fetch('https://prochat-chat.onrender.com/api/chat/ai', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            text: message,
+            model: model,
+            chatId: this.prochat.state.currentChatId
+          })
+        });
 
         const data = await response.json();
         if (response.ok) {
@@ -469,18 +464,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Salvar mensagem do usuário
         try {
-      await fetch('https://prochatt.com.br/api/chat/message', {  // Atualizado para novo domínio
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          text: message,
-          sender: 'user',
-          chatId: this.prochat.state.currentChatId
-        })
-      });
+          await fetch('https://prochat-chat.onrender.com/api/chat/message', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+              text: message,
+              sender: 'user',
+              chatId: this.prochat.state.currentChatId
+            })
+          });
         } catch (error) {
           Utils.handleError('salvar mensagem do usuário', error, false);
         }
@@ -519,19 +514,18 @@ document.addEventListener('DOMContentLoaded', () => {
         sendBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i>';
 
         // Salvar resposta da IA
-        fetch('https://prochatt.com.br/api/chat/message', {  // Atualizado para novo domínio
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        text: aiResponse,
-        sender: 'ai',
-        chatId: this.prochat.state.currentChatId
-      })
-    }).catch(err => console.error('Erro ao salvar resposta da IA:', err));
-
+        fetch('/api/chat/message', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            text: aiResponse,
+            sender: 'ai',
+            chatId: this.prochat.state.currentChatId
+          })
+        }).catch(err => console.error('Erro ao salvar resposta da IA:', err));
 
         this.elements['chat-messages'].scrollTop = this.elements['chat-messages'].scrollHeight;
       }
@@ -652,13 +646,13 @@ document.addEventListener('DOMContentLoaded', () => {
       empty.style.display = 'none';
 
       try {
-      const token = Utils.checkAuth();
-      if (!token) return;
+        const token = Utils.checkAuth();
+        if (!token) return;
 
-      const response = await fetch('https://prochatt.com.br/api/documents', {  // Atualizado para novo domínio
-        method: 'GET',
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+        const response = await fetch('https://prochat-chat.onrender.com/api/documents', {
+          method: 'GET',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
 
         if (!response.ok) {
           throw new Error('Erro ao carregar documentos');
@@ -792,10 +786,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!token) return;
 
       try {
-      const response = await fetch(`https://prochatt.com.br/api/documents/${documentId}`, {  // Atualizado para novo domínio
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+        const response = await fetch(`https://prochat-chat.onrender.com/api/documents/${documentId}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
 
         if (!response.ok) {
           const errorData = await response.json();
@@ -1561,14 +1555,14 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-      const response = await fetch('https://prochatt.com.br/api/documents', {  // Atualizado para novo domínio
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(documentData)
-      });
+          const response = await fetch('https://prochat-chat.onrender.com/api/documents', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(documentData)
+          });
 
           if (!response.ok) {
             const errorData = await response.json();
@@ -1648,18 +1642,18 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         const instruction = `Você é um especialista em inteligência artificial com mais de 10 anos de experiência na criação de prompts eficazes. Sua função é reescrever o prompt original enviado pelo usuário, tornando-o mais claro, completo e direto, sem alterar sua intenção principal. O resultado deve ser um texto fluido e bem estruturado, redigido em primeira pessoa, como se fosse o próprio usuário falando diretamente com a IA. Comece com e não use títulos e asteriscos. Não execute a tarefa solicitada no prompt. Sua única responsabilidade é aprimorar o texto do prompt. Prompt original: "${originalPrompt}"`;
 
-        const response = await fetch('https://prochatt.com.br/api/chat/ai', {  // Atualizado para novo domínio
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        text: instruction,
-        model: 'deepseek-chat',
-        max_tokens: 400
-      })
-    });
+        const response = await fetch('https://prochat-chat.onrender.com/api/chat/ai', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            text: instruction,
+            model: 'deepseek-chat',
+            max_tokens: 400
+          })
+        });
 
         const data = await response.json();
         if (response.ok) {
@@ -1885,6 +1879,4 @@ document.addEventListener('DOMContentLoaded', () => {
       ProChat.elements['model-modal'].style.display = 'none';
     });
   });
-
-  ProChat.init();
 });

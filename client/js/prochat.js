@@ -1870,6 +1870,10 @@ const TutorialSystem = {
     this.accessCount = parseInt(localStorage.getItem('tutorialAccessCount') || 0);
     this.checkAndShowTutorial();
     this.setupEventListeners();
+      console.log('TutorialSystem: Iniciando...');
+    const modal = document.getElementById('tutorial-modal');
+    console.log('Modal encontrado:', modal);  // Deve mostrar o elemento, não null
+ 
   },
 
   checkAndShowTutorial() {

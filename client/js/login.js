@@ -143,90 +143,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ===== DASHBOARD FUNCIONALIDADES =====
-  function initDashboard() {
-    // Elementos da sidebar
-    const sidebar = document.getElementById('sidebar');
-    const sidebarToggle = document.getElementById('sidebar-toggle');
-    const logoutBtn = document.getElementById('logout-btn');
-    const navProchat = document.getElementById('nav-prochat');
-    const navSharing = document.getElementById('nav-sharing');
-    const pageProchat = document.getElementById('page-prochat');
-    const pageSharing = document.getElementById('page-sharing');
-    
-    
-
-    // Recolher/expandir sidebar
-    if (sidebarToggle) {
-      sidebarToggle.addEventListener('click', () => {
-        if (sidebar) sidebar.classList.toggle('collapsed');
-      });
-    }
-
-    // Auto-retrair após 15 segundos
-    setTimeout(() => {
-      if (sidebar) sidebar.classList.add('collapsed');
-    }, 15000);
-
-    // Navegação entre páginas
-    if (navProchat) {
-      navProchat.addEventListener('click', (e) => {
-        e.preventDefault();
-        navProchat.classList.add('active');
-        if (navSharing) navSharing.classList.remove('active');
-        if (pageProchat) pageProchat.classList.remove('hidden');
-        if (pageSharing) pageSharing.classList.add('hidden');
-      });
-    }
-
-    if (navSharing) {
-      navSharing.addEventListener('click', (e) => {
-        e.preventDefault();
-        navSharing.classList.add('active');
-        if (navProchat) navProchat.classList.remove('active');
-        if (pageSharing) pageSharing.classList.remove('hidden');
-        if (pageProchat) pageProchat.classList.add('hidden');
-      });
-    }
-
-    // Logout
-    if (logoutBtn) {
-      logoutBtn.addEventListener('click', () => {
-        localStorage.removeItem('token'); // Limpar token para multi-usuário
-        window.location.href = 'login.html'; // Redirecionar para login
-      });
-    }
-
-    // Funcionalidades básicas de chat (placeholder para ProChat)
-    const chatInput = document.getElementById('chat-input');
-    const sendBtn = document.getElementById('send-embedded-btn'); // Corrigido para o ID correto
-    const chatMessages = document.getElementById('chat-messages');
-
-    if (sendBtn) {
-      sendBtn.addEventListener('click', () => {
-        const message = chatInput?.value.trim();
-        if (message && chatMessages) {
-          // Adicionar mensagem do usuário
-          const userMessage = document.createElement('div');
-          userMessage.textContent = `Você: ${message}`;
-          chatMessages.appendChild(userMessage);
-          if (chatInput) chatInput.value = '';
-          // Simular resposta da IA (placeholder)
-          setTimeout(() => {
-            const aiMessage = document.createElement('div');
-            aiMessage.textContent = 'IA: Resposta simulada.';
-            chatMessages.appendChild(aiMessage);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-          }, 1000);
-        }
-      });
-    }
-    
-    TutorialSystem.init();
-  }
-
   // ========================================
-// SISTEMA DE TUTORIAL
+// SISTEMA DE TUTORIAL - MOVIDO PARA AQUI (ANTES DE initDashboard)
 // ========================================
 const TutorialSystem = {
   init() {
@@ -315,5 +233,87 @@ const TutorialSystem = {
     });
   }
 };
+
+  // ===== DASHBOARD FUNCIONALIDADES =====
+  function initDashboard() {
+    // Elementos da sidebar
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+    const logoutBtn = document.getElementById('logout-btn');
+    const navProchat = document.getElementById('nav-prochat');
+    const navSharing = document.getElementById('nav-sharing');
+    const pageProchat = document.getElementById('page-prochat');
+    const pageSharing = document.getElementById('page-sharing');
+    
+    
+
+    // Recolher/expandir sidebar
+    if (sidebarToggle) {
+      sidebarToggle.addEventListener('click', () => {
+        if (sidebar) sidebar.classList.toggle('collapsed');
+      });
+    }
+
+    // Auto-retrair após 15 segundos
+    setTimeout(() => {
+      if (sidebar) sidebar.classList.add('collapsed');
+    }, 15000);
+
+    // Navegação entre páginas
+    if (navProchat) {
+      navProchat.addEventListener('click', (e) => {
+        e.preventDefault();
+        navProchat.classList.add('active');
+        if (navSharing) navSharing.classList.remove('active');
+        if (pageProchat) pageProchat.classList.remove('hidden');
+        if (pageSharing) pageSharing.classList.add('hidden');
+      });
+    }
+
+    if (navSharing) {
+      navSharing.addEventListener('click', (e) => {
+        e.preventDefault();
+        navSharing.classList.add('active');
+        if (navProchat) navProchat.classList.remove('active');
+        if (pageSharing) pageSharing.classList.remove('hidden');
+        if (pageProchat) pageProchat.classList.add('hidden');
+      });
+    }
+
+    // Logout
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('token'); // Limpar token para multi-usuário
+        window.location.href = 'login.html'; // Redirecionar para login
+      });
+    }
+
+    // Funcionalidades básicas de chat (placeholder para ProChat)
+    const chatInput = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('send-embedded-btn'); // Corrigido para o ID correto
+    const chatMessages = document.getElementById('chat-messages');
+
+    if (sendBtn) {
+      sendBtn.addEventListener('click', () => {
+        const message = chatInput?.value.trim();
+        if (message && chatMessages) {
+          // Adicionar mensagem do usuário
+          const userMessage = document.createElement('div');
+          userMessage.textContent = `Você: ${message}`;
+          chatMessages.appendChild(userMessage);
+          if (chatInput) chatInput.value = '';
+          // Simular resposta da IA (placeholder)
+          setTimeout(() => {
+            const aiMessage = document.createElement('div');
+            aiMessage.textContent = 'IA: Resposta simulada.';
+            chatMessages.appendChild(aiMessage);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+          }, 1000);
+        }
+      });
+    }
+    
+    TutorialSystem.init();
+  }
 
 });

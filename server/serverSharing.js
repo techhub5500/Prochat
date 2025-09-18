@@ -142,6 +142,8 @@ const io = socketIo(server, {
       // URLs do Render - ADICIONAR ESTAS LINHAS:
       'https://prochat-frontend.onrender.com',  // URL do seu site estático
       'https://prochat-login.onrender.com',
+      'https://prochatt.com.br/dashboard.html',
+      'https://prochatt.com.br/login.html',
       'https://prochat-chat.onrender.com',
       'https://prochat-sharing.onrender.com',
       // NOVO: Adicionar novo domínio para prochatt.com.br

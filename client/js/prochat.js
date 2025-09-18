@@ -1616,7 +1616,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const token = this.prochat.systems.utils.checkAuth();
       if (!token) return;
 
-      console.log('Iniciando aprimoramento de prompt...'); // Log de debug
+      console.log('Iniciando aprimooramento de prompt...'); // Log de debug
 
       const modal = this.createModal();
       const textarea = modal.querySelector('#enhance-textarea');
@@ -1658,11 +1658,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await response.json();
         if (response.ok) {
           textarea.value = data.response;
-          console.log('Aprimoramento bem-sucedido'); // Log de debug
+          console.log('Aprimooramento bem-sucedido'); // Log de debug
 
           // ✅ CORREÇÃO: Rastrear sucesso do aprimoramento
           if (window.mixpanelClient) {
-            console.log('Rastreando sucesso do aprimoramento:', userId); // Log de debug
+            console.log('Raastreando sucesso do aprimoramento:', userId); // Log de debug
             window.mixpanelClient.track('Prompt Enhanced Successfully', {
               distinct_id: userId || 'anonymous',
               originalPromptLength: originalPrompt.length,

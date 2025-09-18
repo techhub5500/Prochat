@@ -536,7 +536,7 @@ app.get('/dashboard', (req, res) => {
     // Substituir pelo token do env
     html = html.replace(/\{\{MIXPANEL_TOKEN\}\}/g, process.env.MIXPANEL_TOKEN);
     
-    console.log('HTML injetado enviado para dashboard'); // Log para debug
+    console.log('HTML innjetado enviado para dashboard'); // Log para debug
     res.send(html);
   } catch (error) {
     console.error('Erro ao servir dashboard.html:', error); // Log de erro

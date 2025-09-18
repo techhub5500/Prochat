@@ -42,19 +42,56 @@ document.addEventListener('DOMContentLoaded', () => {
     // Configurar event listeners iniciais
     setupEventListeners() {
       // Botões principais
-      this.elements['new-chat-btn'].addEventListener('click', () => this.systems.chat.newChat());
-      this.elements['history-btn'].addEventListener('click', () => this.systems.chat.loadHistory());
-      this.elements['docs-btn'].addEventListener('click', () => this.systems.documents.showModal());
-      this.elements['share-btn'].addEventListener('click', () => this.systems.sharing.toggleMode());
-      this.elements['enhance-btn'].addEventListener('click', () => this.systems.enhance.handleClick());
+      if (this.elements['new-chat-btn']) {
+        this.elements['new-chat-btn'].addEventListener('click', () => this.systems.chat.newChat());
+      } else {
+        console.warn('Elemento new-chat-btn não encontrado no DOM');
+      }
+      
+      if (this.elements['history-btn']) {
+        this.elements['history-btn'].addEventListener('click', () => this.systems.chat.loadHistory());
+      } else {
+        console.warn('Elemento history-btn não encontrado no DOM');
+      }
+      
+      if (this.elements['docs-btn']) {
+        this.elements['docs-btn'].addEventListener('click', () => this.systems.documents.showModal());
+      } else {
+        console.warn('Elemento docs-btn não encontrado no DOM');
+      }
+      
+      if (this.elements['share-btn']) {
+        this.elements['share-btn'].addEventListener('click', () => this.systems.sharing.toggleMode());
+      } else {
+        console.warn('Elemento share-btn não encontrado no DOM');
+      }
+      
+      if (this.elements['enhance-btn']) {
+        this.elements['enhance-btn'].addEventListener('click', () => this.systems.enhance.handleClick());
+      } else {
+        console.warn('Elemento enhance-btn não encontrado no DOM');
+      }
 
       // Input e envio
-      this.elements['chat-input'].addEventListener('input', () => this.systems.chat.handleInput());
-      this.elements['chat-input'].addEventListener('keypress', (e) => this.systems.chat.handleKeyPress(e));
-      this.elements['send-embedded-btn'].addEventListener('click', () => this.systems.chat.sendMessage());
+      if (this.elements['chat-input']) {
+        this.elements['chat-input'].addEventListener('input', () => this.systems.chat.handleInput());
+        this.elements['chat-input'].addEventListener('keypress', (e) => this.systems.chat.handleKeyPress(e));
+      } else {
+        console.warn('Elemento chat-input não encontrado no DOM');
+      }
+      
+      if (this.elements['send-embedded-btn']) {
+        this.elements['send-embedded-btn'].addEventListener('click', () => this.systems.chat.sendMessage());
+      } else {
+        console.warn('Elemento send-embedded-btn não encontrado no DOM');
+      }
 
       // Modelos
-      this.elements['model-btn'].addEventListener('click', () => this.systems.models.showModal());
+      if (this.elements['model-btn']) {
+        this.elements['model-btn'].addEventListener('click', () => this.systems.models.showModal());
+      } else {
+        console.warn('Elemento model-btn não encontrado no DOM');
+      }
 
       console.log('🎛️ Event listeners configurados');
     },

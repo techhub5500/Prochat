@@ -514,18 +514,18 @@ document.addEventListener('DOMContentLoaded', () => {
         sendBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i>';
 
         // Salvar resposta da IA
-        fetch('/api/chat/message', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify({
-            text: aiResponse,
-            sender: 'ai',
-            chatId: this.prochat.state.currentChatId
-          })
-        }).catch(err => console.error('Erro ao salvar resposta da IA:', err));
+        fetch('https://prochat-chat.onrender.com/api/chat/message', {  // ✅ URL completa adicionada
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          text: aiResponse,
+          sender: 'ai',
+          chatId: this.prochat.state.currentChatId
+        })
+      }).catch(err => console.error('Erro ao salvar resposta da IA:', err));
 
         this.elements['chat-messages'].scrollTop = this.elements['chat-messages'].scrollHeight;
       }

@@ -26,6 +26,8 @@ app.use(cors({
     'http://localhost:5500',
     'http://127.0.0.1:5500',
     'https://prochat-frontend.onrender.com/dashboard.html',
+    'https://www.prochatt.com.br',
+    'https://www.prochatt.com.br/dashboard.html',
     // URLs do Render - ADICIONAR ESTAS LINHAS:
     'https://prochat-frontend.onrender.com',  // URL do seu site estático
     'https://prochat-login.onrender.com',

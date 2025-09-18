@@ -14,7 +14,7 @@ let allUsers = [];
 async function loadChatHistory(recipientId) {
   try {
     const token = localStorage.getItem('token');
-    const response = await fetch(`https://prochat-sharing.onrender.com/api/messages/${recipientId}`, {  // Substituído: removido localhost
+    const response = await fetch(`https://www.prochatt.com.br/api/messages/${recipientId}`, {  // Substituído: removido localhost
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -67,7 +67,7 @@ async function loadChatHistory(recipientId) {
 async function fetchAllUsers() {
   try {
     const token = localStorage.getItem('token');
-    const response = await fetch('https://prochat-sharing.onrender.com/api/users', {  // Substituído: removido localhost
+    const response = await fetch('https://www.prochatt.com.br/api/users', {  // Substituído: removido localhost
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -736,7 +736,7 @@ function showOfflineMode() {
     `;
     
     document.getElementById('login-btn').addEventListener('click', () => {
-      window.location.href = 'https://prochat-login.onrender.com/login.html';
+      window.location.href = 'https://www.prochatt.com.br/login.html';
     });
   }
   

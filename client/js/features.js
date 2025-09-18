@@ -458,7 +458,7 @@ function deleteEvent() {
 async function deleteEventFromServer(eventId) {
     try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`https://www.prochatt.com.br/api/calendar/events/${eventId}`, {  // Substituído: removido localhost
+        const response = await fetch(`https://prochat-sharing.onrender.com/api/calendar/events/${eventId}`, {  // Substituído: removido localhost
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -517,7 +517,7 @@ async function loadEvents() {
     // Tentar carregar do servidor
     try {
         const token = localStorage.getItem('token');
-        const response = await fetch('https://www.prochatt.com.br/api/calendar/events', {  // Substituído: removido localhost
+        const response = await fetch('https://prochat-sharing.onrender.com/api/calendar/events', {  // Substituído: removido localhost
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -546,7 +546,7 @@ function saveEventsLocally() {
 async function saveEventToServer(event) {
     try {
         const token = localStorage.getItem('token');
-        const response = await fetch('https://www.prochatt.com.br/api/calendar/events', {  // Substituído: removido localhost
+        const response = await fetch('https://prochat-sharing.onrender.com/api/calendar/events', {  // Substituído: removido localhost
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,

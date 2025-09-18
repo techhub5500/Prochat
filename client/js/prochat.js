@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const isDashboardPage = document.getElementById('new-chat-btn') !== null;
+  if (!isDashboardPage) {
+    console.log('ProChat: Página de login detectada, pulando inicialização.');
+    return; // Não inicializar se não for o dashboard
+  }
   // ========================================
   // SISTEMA PRINCIPAL - PROCHAT
   // ========================================
@@ -1880,4 +1885,6 @@ document.addEventListener('DOMContentLoaded', () => {
       ProChat.elements['model-modal'].style.display = 'none';
     });
   });
+
+  ProChat.init();
 });

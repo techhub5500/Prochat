@@ -153,6 +153,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const navSharing = document.getElementById('nav-sharing');
     const pageProchat = document.getElementById('page-prochat');
     const pageSharing = document.getElementById('page-sharing');
+      // NOVO: Elementos para "Minha Conta"
+    const navAccount = document.getElementById('nav-account');
+    const accountModal = document.getElementById('account-modal');
+    const closeAccountModal = document.getElementById('close-account-modal');
+
 
     // Recolher/expandir sidebar
     if (sidebarToggle) {
@@ -194,6 +199,38 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'login.html'; // Redirecionar para login
       });
     }
+
+    if (navAccount) {
+    navAccount.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      try {
+        const response = await fetch('https://prochat-login.onrender.com/api/profile', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await response.json();
+        if (response.ok) {
+          document.getElementById('account-username').textContent = data.username;
+          document.getElementById('account-name').textContent = data.name;
+          document.getElementById('account-last-login').textContent = data.lastLogin;
+          if (accountModal) accountModal.style.display = 'block';
+        } else {
+          alert(data.message || 'Erro ao carregar perfil');
+        }
+      } catch (error) {
+        alert('Erro de conexão: ' + error.message);
+      }
+    });
+  }
+
+  // NOVO: Fechar modal
+  if (closeAccountModal) {
+    closeAccountModal.addEventListener('click', () => {
+      if (accountModal) accountModal.style.display = 'none';
+    });
+  }
 
     // Funcionalidades básicas de chat (placeholder para ProChat)
     const chatInput = document.getElementById('chat-input');

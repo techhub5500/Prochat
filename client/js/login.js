@@ -76,18 +76,18 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===== SUBMISSÃO DO FORMULÁRIO DE LOGIN =====
   // Trata a submissão do formulário de login via API
   if (loginForm) {
-    loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const identifier = document.getElementById('identifier').value;
-      const password = document.getElementById('password').value;
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const identifier = document.getElementById('identifier').value;
+    const password = document.getElementById('password').value;
 
-      try {
-        // Faz requisição POST para a API de login (substituído: removido localhost)
-        const response = await fetch('https://prochat-login.onrender.com/api/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ identifier, password }),
-        });
+    try {
+      // Faz requisição POST para a API de login (atualizado para novo domínio)
+      const response = await fetch('https://prochatt.com.br/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ identifier, password }),
+      });
 
         const data = await response.json();
         if (response.ok) {
@@ -108,24 +108,24 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===== SUBMISSÃO DO FORMULÁRIO DE CADASTRO =====
   // Trata a submissão do formulário de cadastro via API
   if (signupForm) {
-    signupForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const username = document.getElementById('username').value;
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('signup-email').value;
-      const password = document.getElementById('signup-password').value;
-      const plan = document.querySelector('input[name="plan"]:checked')?.value;
-      
-      // NOVO: Pegar código da organização (opcional)
-      const organizationCode = document.getElementById('organization-code')?.value?.trim() || null;
+  signupForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = document.getElementById('username').value;
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
+    const plan = document.querySelector('input[name="plan"]:checked')?.value;
+    
+    // NOVO: Pegar código da organização (opcional)
+    const organizationCode = document.getElementById('organization-code')?.value?.trim() || null;
 
-      try {
-        // Faz requisição POST para a API de cadastro (substituído: removido localhost)
-        const response = await fetch('https://prochat-login.onrender.com/api/signup', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, name, email, password, plan, organizationCode }),
-        });
+    try {
+      // Faz requisição POST para a API de cadastro (atualizado para novo domínio)
+      const response = await fetch('https://prochatt.com.br/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, name, email, password, plan, organizationCode }),
+      });
 
         const data = await response.json();
         if (response.ok) {

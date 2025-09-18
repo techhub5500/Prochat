@@ -119,7 +119,10 @@ app.use(cors({
     'https://prochat-frontend.onrender.com',  // URL do seu site estático
     'https://prochat-login.onrender.com',
     'https://prochat-chat.onrender.com',
-    'https://prochat-sharing.onrender.com'
+    'https://prochat-sharing.onrender.com',
+    // NOVO: Adicionar novo domínio para prochatt.com.br
+    'https://prochatt.com.br',                 // Domínio principal
+    'https://sharing.prochatt.com.br'          // Subdomínio para sharing (adicione se configurado)
   ],
   credentials: true
 }));
@@ -140,7 +143,10 @@ const io = socketIo(server, {
       'https://prochat-frontend.onrender.com',  // URL do seu site estático
       'https://prochat-login.onrender.com',
       'https://prochat-chat.onrender.com',
-      'https://prochat-sharing.onrender.com'
+      'https://prochat-sharing.onrender.com',
+      // NOVO: Adicionar novo domínio para prochatt.com.br
+      'https://prochatt.com.br',                 // Domínio principal
+      'https://sharing.prochatt.com.br'          // Subdomínio para sharing (adicione se configurado)
     ],
     methods: ['GET', 'POST'],
     credentials: true

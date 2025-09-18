@@ -30,7 +30,10 @@ app.use(cors({
     'https://prochat-frontend.onrender.com',  // URL do seu site estático
     'https://prochat-login.onrender.com',
     'https://prochat-chat.onrender.com',
-    'https://prochat-sharing.onrender.com'
+    'https://prochat-sharing.onrender.com',
+    // NOVO: Adicionar novo domínio para prochatt.com.br
+    'https://prochatt.com.br',                 // Domínio principal
+    'https://chat.prochatt.com.br'             // Subdomínio para chat (adicione se configurado)
   ],
   credentials: true
 }));

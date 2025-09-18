@@ -10,97 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const toggleLink = document.getElementById('toggle-link');
   const sideImage = document.querySelector('.side-image-main'); // Atualizado para classe única
 
-  // ========================================
-// SISTEMA DE TUTORIAL - MOVIDO PARA AQUI (ANTES DA VERIFICAÇÃO DE TOKEN)
-// ========================================
-const TutorialSystem = {
-  init() {
-    console.log('TutorialSystem: Iniciando...');
-    setTimeout(() => {
-      const modal = document.getElementById('tutorial-modal');
-      console.log('Modal encontrado após timeout:', modal);
-      if (!modal) {
-        console.error('Erro: Modal do tutorial não encontrado no DOM!');
-        return;
-      }
-      this.currentImageIndex = 0;
-      this.images = Array.from({ length: 10 }, (_, i) => `../image/tutorial${i + 1}.jpg`);
-      this.accessCount = parseInt(localStorage.getItem('tutorialAccessCount') || 0);
-      this.checkAndShowTutorial();
-      this.setupEventListeners();
-    }, 100);  // Atraso de 100ms para garantir carregamento do DOM
-  },
-
-  checkAndShowTutorial() {
-    if (this.accessCount < 4) {
-      this.showModal();
-      this.accessCount++;
-      localStorage.setItem('tutorialAccessCount', this.accessCount);
-    }
-  },
-
-  showModal() {
-    const modal = document.getElementById('tutorial-modal');
-    modal.style.display = 'flex';
-    this.updateImage();
-    this.updateButtons();
-  },
-
-  hideModal() {
-    const modal = document.getElementById('tutorial-modal');
-    modal.style.display = 'none';
-  },
-
-  updateImage() {
-    const img = document.getElementById('tutorial-image');
-    img.src = this.images[this.currentImageIndex];
-    document.getElementById('tutorial-counter').textContent = `${this.currentImageIndex + 1} / 10`;
-  },
-
-  updateButtons() {
-    const prevBtn = document.getElementById('tutorial-prev-btn');
-    const nextBtn = document.getElementById('tutorial-next-btn');
-    const closeBtn = document.getElementById('tutorial-close-btn');
-
-    prevBtn.disabled = this.currentImageIndex === 0;
-    nextBtn.textContent = this.currentImageIndex === 9 ? 'Finalizar' : 'Próxima →';
-
-    // Na primeira vez, desabilitar fechamento até o final
-    if (this.accessCount === 1) {
-      closeBtn.style.display = this.currentImageIndex === 9 ? 'block' : 'none';
-    } else {
-      closeBtn.style.display = 'block';
-    }
-  },
-
-  nextImage() {
-    if (this.currentImageIndex < 9) {
-      this.currentImageIndex++;
-      this.updateImage();
-      this.updateButtons();
-    } else {
-      this.hideModal();
-    }
-  },
-
-  prevImage() {
-    if (this.currentImageIndex > 0) {
-      this.currentImageIndex--;
-      this.updateImage();
-      this.updateButtons();
-    }
-  },
-
-  setupEventListeners() {
-    document.getElementById('tutorial-next-btn').addEventListener('click', () => this.nextImage());
-    document.getElementById('tutorial-prev-btn').addEventListener('click', () => this.prevImage());
-    document.getElementById('tutorial-close-btn').addEventListener('click', () => this.hideModal());
-    document.getElementById('tutorial-modal').addEventListener('click', (e) => {
-      if (e.target === document.getElementById('tutorial-modal')) this.hideModal();
-    });
-  }
-};
-
   // Verificar se usuário está logado (multi-usuário) - se sim, mostrar dashboard ou inicializar diretamente
   const token = localStorage.getItem('token');
   if (token) {
@@ -244,8 +153,6 @@ const TutorialSystem = {
     const navSharing = document.getElementById('nav-sharing');
     const pageProchat = document.getElementById('page-prochat');
     const pageSharing = document.getElementById('page-sharing');
-    
-    
 
     // Recolher/expandir sidebar
     if (sidebarToggle) {
@@ -312,8 +219,5 @@ const TutorialSystem = {
         }
       });
     }
-    
-    TutorialSystem.init();
   }
-
 });
